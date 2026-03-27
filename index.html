@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finance Learning Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --card-hover: #22263a;
+    --accent: #6c63ff;
+    --accent2: #00d4aa;
+    --accent3: #ff6b6b;
+    --accent4: #ffd93d;
+    --text: #e4e4e7;
+    --text-dim: #9ca3af;
+    --border: #2d3148;
+    --input-bg: #141720;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* NAV */
+  .nav { display: flex; gap: 0; border-bottom: 1px solid var(--border); background: var(--card); position: sticky; top: 0; z-index: 100; overflow-x: auto; }
+  .nav button { padding: 14px 22px; background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 14px; font-weight: 500; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.2s; }
+  .nav button:hover { color: var(--text); background: var(--card-hover); }
+  .nav button.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* LAYOUT */
+  .page { display: none; padding: 32px; max-width: 1400px; margin: 0 auto; }
+  .page.active { display: block; }
+  h1 { font-size: 28px; margin-bottom: 8px; }
+  h2 { font-size: 20px; margin-bottom: 16px; color: var(--accent); }
+  h3 { font-size: 16px; margin-bottom: 12px; }
+  .subtitle { color: var(--text-dim); margin-bottom: 32px; font-size: 15px; }
+
+  /* CARDS */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; margin-bottom: 20px; }
+  .card-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 20px; }
+
+  /* INPUTS */
+  .input-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .input-row label { font-size: 13px; color: var(--text-dim); }
+  .input-row input, .input-row select { background: var(--input-bg); border: 1px solid var(--border); color: var(--text); padding: 6px 10px; border-radius: 6px; width: 100px; text-align: right; font-size: 13px; }
+  .input-row input:focus { outline: none; border-color: var(--accent); }
+
+  /* RESULTS */
+  .result-big { font-size: 32px; font-weight: 700; color: var(--accent2); }
+  .result-label { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .result-box { text-align: center; padding: 16px; }
+
+  /* SENSITIVITY TABLE */
+  .sens-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .sens-table th, .sens-table td { padding: 8px 12px; text-align: center; border: 1px solid var(--border); }
+  .sens-table th { background: var(--card-hover); color: var(--accent); font-weight: 600; }
+  .sens-table td { background: var(--card); }
+  .sens-table .highlight { background: var(--accent); color: white; font-weight: 700; border-radius: 2px; }
+
+  /* 3-STATEMENT FLOW */
+  .flow-container { position: relative; }
+  .statement-box { background: var(--card); border: 2px solid var(--border); border-radius: 12px; padding: 20px; transition: all 0.3s; cursor: pointer; }
+  .statement-box:hover, .statement-box.active { border-color: var(--accent); box-shadow: 0 0 20px rgba(108, 99, 255, 0.15); }
+  .statement-box h3 { display: flex; align-items: center; gap: 8px; }
+  .line-item { display: flex; justify-content: space-between; padding: 6px 0; font-size: 13px; border-bottom: 1px solid var(--border); }
+  .line-item:last-child { border-bottom: none; }
+  .line-item.total { font-weight: 700; color: var(--accent2); border-top: 2px solid var(--border); padding-top: 10px; }
+  .line-item.subtotal { font-weight: 600; color: var(--accent); }
+  .line-item .val { font-family: 'SF Mono', 'Fira Code', monospace; }
+  .line-item.link-highlight { background: rgba(108, 99, 255, 0.1); border-radius: 4px; padding: 6px 8px; margin: 2px -8px; }
+
+  /* LINKAGE ARROWS */
+  .linkage-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 10px; background: var(--accent); color: white; margin-left: 8px; cursor: help; }
+
+  /* FOOTBALL FIELD */
+  .football-field { position: relative; padding: 20px 0; }
+  .ff-row { display: flex; align-items: center; margin-bottom: 16px; }
+  .ff-label { width: 160px; font-size: 13px; font-weight: 600; flex-shrink: 0; }
+  .ff-bar-container { flex: 1; position: relative; height: 36px; }
+  .ff-bar { position: absolute; height: 100%; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; font-size: 12px; font-weight: 600; transition: all 0.5s; }
+  .ff-marker { position: absolute; top: -10px; bottom: -10px; width: 2px; background: var(--accent3); z-index: 10; }
+  .ff-marker-label { position: absolute; top: -24px; transform: translateX(-50%); font-size: 11px; color: var(--accent3); white-space: nowrap; font-weight: 600; }
+
+  /* FLASHCARDS */
+  .flashcard { perspective: 1000px; height: 300px; cursor: pointer; }
+  .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
+  .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+  .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px; text-align: center; }
+  .flashcard-front { background: linear-gradient(135deg, var(--card), var(--card-hover)); border: 2px solid var(--border); }
+  .flashcard-back { background: linear-gradient(135deg, #1e2140, #2a1e40); border: 2px solid var(--accent); transform: rotateY(180deg); }
+  .flashcard-front h3 { font-size: 22px; margin-bottom: 8px; }
+  .flashcard-front .hint { color: var(--text-dim); font-size: 13px; }
+  .flashcard-back p { font-size: 15px; line-height: 1.6; }
+  .flashcard-back .formula { font-family: 'SF Mono', monospace; background: rgba(108,99,255,0.15); padding: 8px 16px; border-radius: 6px; margin-top: 12px; color: var(--accent); }
+
+  .card-nav { display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 20px; }
+  .card-nav button { padding: 10px 24px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); cursor: pointer; font-size: 14px; }
+  .card-nav button:hover { background: var(--card-hover); }
+  .card-nav .counter { color: var(--text-dim); font-size: 14px; }
+
+  /* LBO WATERFALL */
+  .waterfall { display: flex; align-items: flex-end; gap: 12px; height: 280px; padding: 20px 0; }
+  .wf-bar { display: flex; flex-direction: column; align-items: center; flex: 1; }
+  .wf-bar-fill { width: 100%; border-radius: 6px 6px 0 0; transition: height 0.5s; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 8px; font-size: 13px; font-weight: 700; }
+  .wf-bar-label { font-size: 11px; color: var(--text-dim); margin-top: 8px; text-align: center; }
+
+  /* QUIZ */
+  .quiz-option { padding: 14px 20px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; margin-bottom: 8px; font-size: 14px; transition: all 0.2s; }
+  .quiz-option:hover { border-color: var(--accent); background: var(--card-hover); }
+  .quiz-option.correct { border-color: var(--accent2); background: rgba(0, 212, 170, 0.1); }
+  .quiz-option.wrong { border-color: var(--accent3); background: rgba(255, 107, 107, 0.1); }
+  .quiz-explanation { margin-top: 16px; padding: 16px; background: rgba(108, 99, 255, 0.08); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; font-size: 14px; line-height: 1.6; display: none; }
+
+  /* CHART CONTAINER */
+  .chart-container { position: relative; height: 300px; }
+
+  /* TAGS */
+  .tag { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; margin-right: 4px; }
+  .tag-sie { background: rgba(108,99,255,0.15); color: var(--accent); }
+  .tag-s7 { background: rgba(0,212,170,0.15); color: var(--accent2); }
+  .tag-s63 { background: rgba(255,217,61,0.15); color: var(--accent4); }
+
+  /* SLIDER */
+  input[type="range"] { -webkit-appearance: none; width: 100%; height: 6px; border-radius: 3px; background: var(--border); outline: none; }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); cursor: pointer; }
+
+  .slider-row { margin-bottom: 16px; }
+  .slider-row .slider-header { display: flex; justify-content: space-between; margin-bottom: 6px; }
+  .slider-row .slider-header label { font-size: 13px; color: var(--text-dim); }
+  .slider-row .slider-header .slider-val { font-size: 13px; color: var(--accent); font-weight: 600; font-family: monospace; }
+
+  .btn { padding: 10px 20px; border-radius: 8px; border: none; background: var(--accent); color: white; cursor: pointer; font-size: 14px; font-weight: 600; }
+  .btn:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <button class="active" onclick="showPage('three-stmt')">📊 3-Statement Model</button>
+  <button onclick="showPage('dcf')">💰 DCF Calculator</button>
+  <button onclick="showPage('lbo')">🏦 LBO Simulator</button>
+  <button onclick="showPage('comps')">📈 Comps & Football Field</button>
+  <button onclick="showPage('flashcards')">🃏 Concept Cards</button>
+  <button onclick="showPage('quiz')">🧠 Quiz Mode</button>
+</div>
+
+<!-- ===================== 3-STATEMENT MODEL ===================== -->
+<div id="three-stmt" class="page active">
+  <h1>3-Statement Model — Interactive Linkages</h1>
+  <p class="subtitle">Click any highlighted item to trace how it flows between statements. The #1 skill in financial modeling.</p>
+
+  <div class="card-grid-3">
+    <!-- INCOME STATEMENT -->
+    <div class="statement-box" id="is-box">
+      <h3>📋 Income Statement</h3>
+      <p style="font-size:12px; color:var(--text-dim); margin-bottom:12px;">Performance over a period</p>
+      <div class="line-item"><span>Revenue</span><span class="val" id="is-rev">$1,000</span></div>
+      <div class="line-item"><span>COGS</span><span class="val">($400)</span></div>
+      <div class="line-item subtotal"><span>Gross Profit</span><span class="val">$600</span></div>
+      <div class="line-item"><span>Operating Expenses</span><span class="val">($200)</span></div>
+      <div class="line-item"><span>Depreciation & Amort. <span class="linkage-badge" data-link="da" title="Flows to CF Statement (added back) and reduces PP&E on BS">→ CF, BS</span></span><span class="val" id="is-da">($50)</span></div>
+      <div class="line-item subtotal"><span>EBIT (Operating Income)</span><span class="val" id="is-ebit">$350</span></div>
+      <div class="line-item"><span>Interest Expense <span class="linkage-badge" data-link="int" title="Function of debt on Balance Sheet">← BS</span></span><span class="val" id="is-int">($35)</span></div>
+      <div class="line-item"><span>Taxes (25%)</span><span class="val" id="is-tax">($79)</span></div>
+      <div class="line-item total"><span>Net Income <span class="linkage-badge" data-link="ni" title="Flows to Retained Earnings on BS and starts CF Statement">→ CF, BS</span></span><span class="val" id="is-ni">$236</span></div>
+    </div>
+
+    <!-- BALANCE SHEET -->
+    <div class="statement-box" id="bs-box">
+      <h3>🏛️ Balance Sheet</h3>
+      <p style="font-size:12px; color:var(--text-dim); margin-bottom:12px;">Snapshot at a point in time</p>
+      <div style="font-size:12px; font-weight:600; color:var(--accent); margin-bottom:4px;">ASSETS</div>
+      <div class="line-item"><span>Cash <span class="linkage-badge" data-link="cash" title="Ending cash from CF Statement">← CF</span></span><span class="val" id="bs-cash">$281</span></div>
+      <div class="line-item"><span>Accounts Receivable</span><span class="val">$120</span></div>
+      <div class="line-item"><span>Inventory</span><span class="val">$80</span></div>
+      <div class="line-item"><span>PP&E (net) <span class="linkage-badge" data-link="ppe" title="Prior PP&E + CapEx - Depreciation">← CF, IS</span></span><span class="val" id="bs-ppe">$500</span></div>
+      <div class="line-item subtotal"><span>Total Assets</span><span class="val" id="bs-assets">$981</span></div>
+      <div style="font-size:12px; font-weight:600; color:var(--accent3); margin: 8px 0 4px;">LIABILITIES + EQUITY</div>
+      <div class="line-item"><span>Accounts Payable</span><span class="val">$90</span></div>
+      <div class="line-item"><span>Total Debt <span class="linkage-badge" data-link="debt" title="Interest expense = Debt × Rate">→ IS</span></span><span class="val" id="bs-debt">$350</span></div>
+      <div class="line-item"><span>Retained Earnings <span class="linkage-badge" data-link="ni" title="Prior RE + Net Income - Dividends">← IS</span></span><span class="val" id="bs-re">$341</span></div>
+      <div class="line-item"><span>Paid-in Capital</span><span class="val">$200</span></div>
+      <div class="line-item total"><span>Total L + E</span><span class="val" id="bs-le">$981</span></div>
+    </div>
+
+    <!-- CASH FLOW -->
+    <div class="statement-box" id="cf-box">
+      <h3>💵 Cash Flow Statement</h3>
+      <p style="font-size:12px; color:var(--text-dim); margin-bottom:12px;">Where cash actually went</p>
+      <div style="font-size:12px; font-weight:600; color:var(--accent2); margin-bottom:4px;">OPERATING</div>
+      <div class="line-item"><span>Net Income <span class="linkage-badge" data-link="ni" title="Starting point — from Income Statement">← IS</span></span><span class="val" id="cf-ni">$236</span></div>
+      <div class="line-item"><span>(+) Depreciation <span class="linkage-badge" data-link="da" title="Added back — it's non-cash">← IS</span></span><span class="val" id="cf-da">$50</span></div>
+      <div class="line-item"><span>Working Capital Changes</span><span class="val">($15)</span></div>
+      <div class="line-item subtotal"><span>Cash from Operations</span><span class="val" id="cf-cfo">$271</span></div>
+      <div style="font-size:12px; font-weight:600; color:var(--accent4); margin: 8px 0 4px;">INVESTING</div>
+      <div class="line-item"><span>Capital Expenditures <span class="linkage-badge" data-link="ppe" title="Increases PP&E on Balance Sheet">→ BS</span></span><span class="val" id="cf-capex">($80)</span></div>
+      <div class="line-item subtotal"><span>Cash from Investing</span><span class="val">($80)</span></div>
+      <div style="font-size:12px; font-weight:600; color:var(--accent3); margin: 8px 0 4px;">FINANCING</div>
+      <div class="line-item"><span>Debt Repayment</span><span class="val">($30)</span></div>
+      <div class="line-item"><span>Dividends</span><span class="val">($20)</span></div>
+      <div class="line-item subtotal"><span>Cash from Financing</span><span class="val">($50)</span></div>
+      <div class="line-item total"><span>Net Change in Cash</span><span class="val" id="cf-net">$141</span></div>
+      <div class="line-item"><span>Beginning Cash</span><span class="val">$140</span></div>
+      <div class="line-item total"><span>Ending Cash <span class="linkage-badge" data-link="cash" title="This = Cash on Balance Sheet">→ BS</span></span><span class="val" id="cf-end">$281</span></div>
+    </div>
+  </div>
+
+  <div class="card" style="border-left: 3px solid var(--accent);">
+    <h3>🔗 Key Linkages — Why Net Income ≠ Cash</h3>
+    <p style="font-size:14px; line-height:1.7; color: var(--text-dim);">
+      <strong style="color:var(--text)">Net Income was $236M</strong>, but cash only increased by <strong style="color:var(--text)">$141M</strong>. Why the $95M gap?<br>
+      • <strong style="color:var(--accent2)">+$50M</strong> Depreciation added back (non-cash expense reduced NI but didn't use cash)<br>
+      • <strong style="color:var(--accent3)">−$80M</strong> CapEx (real cash spent on equipment — never hits the income statement!)<br>
+      • <strong style="color:var(--accent3)">−$15M</strong> Working capital increase (sold on credit → revenue recognized but cash not yet received)<br>
+      • <strong style="color:var(--accent3)">−$30M</strong> Debt repayment (reduces debt on BS, no income statement impact)<br>
+      • <strong style="color:var(--accent3)">−$20M</strong> Dividends (paid to shareholders from retained earnings)<br>
+      <strong style="color:var(--accent)">Free Cash Flow = $271 CFO − $80 CapEx = $191M</strong> — this is what matters for valuation.
+    </p>
+  </div>
+
+  <!-- Interactive slider to adjust revenue -->
+  <div class="card">
+    <h3>⚡ Try It: Change Revenue and Watch Everything Flow</h3>
+    <div class="slider-row">
+      <div class="slider-header">
+        <label>Revenue ($M)</label>
+        <span class="slider-val" id="rev-display">$1,000</span>
+      </div>
+      <input type="range" min="500" max="2000" value="1000" step="50" id="rev-slider" oninput="updateThreeStmt(this.value)">
+    </div>
+    <p style="font-size:12px; color:var(--text-dim);">Watch how a revenue change cascades through all three statements — gross profit, net income, cash flow, retained earnings, and the balance sheet all adjust.</p>
+  </div>
+</div>
+
+<!-- ===================== DCF CALCULATOR ===================== -->
+<div id="dcf" class="page">
+  <h1>DCF Calculator — Discounted Cash Flow</h1>
+  <p class="subtitle">The fundamental question: what is a company worth based on future cash generation?</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h2>Assumptions</h2>
+      <div class="slider-row">
+        <div class="slider-header"><label>Current FCF ($M)</label><span class="slider-val" id="dcf-fcf-val">$200</span></div>
+        <input type="range" min="50" max="1000" value="200" step="10" id="dcf-fcf" oninput="updateDCF()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-header"><label>Revenue Growth (Yr 1-5)</label><span class="slider-val" id="dcf-growth-val">10%</span></div>
+        <input type="range" min="0" max="30" value="10" step="1" id="dcf-growth" oninput="updateDCF()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-header"><label>FCF Margin Trend</label><span class="slider-val" id="dcf-margin-val">0%</span></div>
+        <input type="range" min="-5" max="5" value="0" step="0.5" id="dcf-margin" oninput="updateDCF()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-header"><label>WACC (Discount Rate)</label><span class="slider-val" id="dcf-wacc-val">10%</span></div>
+        <input type="range" min="5" max="18" value="10" step="0.5" id="dcf-wacc" oninput="updateDCF()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-header"><label>Terminal Growth Rate</label><span class="slider-val" id="dcf-tgr-val">2.5%</span></div>
+        <input type="range" min="0" max="4" value="2.5" step="0.25" id="dcf-tgr" oninput="updateDCF()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-header"><label>Net Debt ($M)</label><span class="slider-val" id="dcf-debt-val">$500</span></div>
+        <input type="range" min="0" max="5000" value="500" step="50" id="dcf-debt" oninput="updateDCF()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-header"><label>Shares Outstanding (M)</label><span class="slider-val" id="dcf-shares-val">100</span></div>
+        <input type="range" min="10" max="500" value="100" step="5" id="dcf-shares" oninput="updateDCF()">
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Projected Free Cash Flows</h2>
+      <div class="chart-container">
+        <canvas id="dcf-chart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="result-box">
+        <div class="result-label">Enterprise Value</div>
+        <div class="result-big" id="dcf-ev">$3,467M</div>
+      </div>
+      <div style="display:flex; gap:20px; margin-top:16px;">
+        <div class="result-box" style="flex:1">
+          <div class="result-label">PV of FCFs</div>
+          <div style="font-size:20px; font-weight:600;" id="dcf-pv-fcf">$1,012M</div>
+          <div style="font-size:12px; color:var(--text-dim);" id="dcf-pv-pct">29%</div>
+        </div>
+        <div class="result-box" style="flex:1">
+          <div class="result-label">PV of Terminal Value</div>
+          <div style="font-size:20px; font-weight:600; color:var(--accent4);" id="dcf-pv-tv">$2,455M</div>
+          <div style="font-size:12px; color:var(--text-dim);" id="dcf-tv-pct">71%</div>
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--border); margin-top:16px; padding-top:16px; display:flex; gap:20px;">
+        <div class="result-box" style="flex:1">
+          <div class="result-label">Equity Value</div>
+          <div style="font-size:24px; font-weight:700; color:var(--accent);" id="dcf-equity">$2,967M</div>
+        </div>
+        <div class="result-box" style="flex:1">
+          <div class="result-label">Implied Share Price</div>
+          <div style="font-size:24px; font-weight:700; color:var(--accent2);" id="dcf-price">$29.67</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Sensitivity Table: WACC vs Terminal Growth</h2>
+      <p style="font-size:12px; color:var(--text-dim); margin-bottom:12px;">Implied share price across different discount rates and long-term growth assumptions</p>
+      <table class="sens-table" id="dcf-sens-table"></table>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== LBO SIMULATOR ===================== -->
+<div id="lbo" class="page">
+  <h1>LBO Simulator — Leveraged Buyout</h1>
+  <p class="subtitle">How private equity creates returns through leverage, growth, and multiple expansion.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h2>Deal Assumptions</h2>
+      <div class="slider-row">
+        <div class="slider-header"><label>Target EBITDA ($M)</label><span class="slider-val" id="lbo-ebitda-val">$100</span></div>
+        <input type="range" min="20" max="500" value="100" step="5" id="lbo-ebitda" oninput="updateLBO()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-header"><label>Entry Multiple (EV/EBITDA)</label><span class="slider-val" id="lbo-entry-val">10.0x</span></div>
+        <input type="range" min="4" max="20" value="10" step="0.5" id="lbo-entry" oninput="updateLBO()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-header"><label>Leverage (Debt / EV)</label><span class="slider-val" id="lbo-lev-val">60%</span></div>
+        <input type="range" min="30" max="80" value="60" step="5" id="lbo-lev" oninput="updateLBO()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-header"><label>Interest Rate</label><span class="slider-val" id="lbo-rate-val">6%</span></div>
+        <input type="range" min="3" max="12" value="6" step="0.5" id="lbo-rate" oninput="updateLBO()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-header"><label>EBITDA Growth / Year</label><span class="slider-val" id="lbo-grow-val">5%</span></div>
+        <input type="range" min="0" max="20" value="5" step="1" id="lbo-grow" oninput="updateLBO()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-header"><label>FCF Conversion (% of EBITDA)</label><span class="slider-val" id="lbo-fcf-val">40%</span></div>
+        <input type="range" min="10" max="70" value="40" step="5" id="lbo-fcf" oninput="updateLBO()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-header"><label>Exit Multiple (EV/EBITDA)</label><span class="slider-val" id="lbo-exit-val">10.0x</span></div>
+        <input type="range" min="4" max="20" value="10" step="0.5" id="lbo-exit" oninput="updateLBO()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-header"><label>Hold Period (Years)</label><span class="slider-val" id="lbo-hold-val">5</span></div>
+        <input type="range" min="3" max="7" value="5" step="1" id="lbo-hold" oninput="updateLBO()">
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Returns Analysis</h2>
+      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:16px; margin-bottom:24px;">
+        <div class="result-box">
+          <div class="result-label">IRR</div>
+          <div class="result-big" id="lbo-irr">22.1%</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Money Multiple (MOIC)</div>
+          <div class="result-big" id="lbo-moic" style="color:var(--accent);">2.7x</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Equity Check</div>
+          <div style="font-size:24px; font-weight:700; color:var(--accent4);" id="lbo-check">$400M</div>
+        </div>
+      </div>
+
+      <h3>Value Creation Waterfall</h3>
+      <div class="waterfall" id="lbo-waterfall"></div>
+
+      <div style="display:flex; gap:12px; margin-top:8px;">
+        <div style="display:flex; align-items:center; gap:6px;"><div style="width:12px; height:12px; border-radius:2px; background:var(--accent);"></div><span style="font-size:12px; color:var(--text-dim);">EBITDA Growth</span></div>
+        <div style="display:flex; align-items:center; gap:6px;"><div style="width:12px; height:12px; border-radius:2px; background:var(--accent2);"></div><span style="font-size:12px; color:var(--text-dim);">Debt Paydown</span></div>
+        <div style="display:flex; align-items:center; gap:6px;"><div style="width:12px; height:12px; border-radius:2px; background:var(--accent4);"></div><span style="font-size:12px; color:var(--text-dim);">Multiple Expansion</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Sensitivity: IRR by Entry Multiple vs Exit Multiple</h2>
+    <table class="sens-table" id="lbo-sens-table"></table>
+  </div>
+</div>
+
+<!-- ===================== COMPS & FOOTBALL FIELD ===================== -->
+<div id="comps" class="page">
+  <h1>Valuation Football Field</h1>
+  <p class="subtitle">No single method gives "the answer." The overlap across methods reveals fair value.</p>
+
+  <div class="card">
+    <h3>Adjust Assumptions</h3>
+    <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:16px;">
+      <div class="slider-row">
+        <div class="slider-header"><label>Current Price</label><span class="slider-val" id="ff-price-val">$43</span></div>
+        <input type="range" min="20" max="80" value="43" step="1" id="ff-price" oninput="updateFootball()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-header"><label>DCF Low</label><span class="slider-val" id="ff-dcf-lo-val">$38</span></div>
+        <input type="range" min="20" max="60" value="38" step="1" id="ff-dcf-lo" oninput="updateFootball()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-header"><label>DCF High</label><span class="slider-val" id="ff-dcf-hi-val">$52</span></div>
+        <input type="range" min="30" max="80" value="52" step="1" id="ff-dcf-hi" oninput="updateFootball()">
+      </div>
+      <div class="slider-row">
+        <div class="slider-header"><label>52-Week High</label><span class="slider-val" id="ff-52-val">$58</span></div>
+        <input type="range" min="40" max="90" value="58" step="1" id="ff-52" oninput="updateFootball()">
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="football-field" id="football-field"></div>
+  </div>
+
+  <div class="card" style="border-left: 3px solid var(--accent);">
+    <h3>📖 How to Read This</h3>
+    <p style="font-size:14px; line-height:1.7; color:var(--text-dim);">
+      Each bar shows the <strong style="color:var(--text)">valuation range</strong> from a different methodology. The <strong style="color:var(--accent3)">red line</strong> is the current stock price.<br><br>
+      • <strong style="color:var(--text)">If current price is below most ranges</strong> → stock may be undervalued<br>
+      • <strong style="color:var(--text)">If current price sits in the middle</strong> → roughly fairly valued<br>
+      • <strong style="color:var(--text)">If current price is above most ranges</strong> → stock may be overvalued<br><br>
+      <strong style="color:var(--accent)">The convergence zone</strong> — where multiple methods overlap — is where analysts have the most confidence in fair value.
+    </p>
+  </div>
+</div>
+
+<!-- ===================== FLASHCARDS ===================== -->
+<div id="flashcards" class="page">
+  <h1>Concept Cards — SIE / Series 7 / Series 63</h1>
+  <p class="subtitle">Click a card to flip it. Covers the highest-value concepts from all three exams.</p>
+
+  <div style="display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap;">
+    <button class="btn" style="font-size:12px; padding:6px 14px;" onclick="filterCards('all')">All</button>
+    <button class="btn" style="font-size:12px; padding:6px 14px; background:rgba(108,99,255,0.2); color:var(--accent);" onclick="filterCards('sie')">SIE</button>
+    <button class="btn" style="font-size:12px; padding:6px 14px; background:rgba(0,212,170,0.2); color:var(--accent2);" onclick="filterCards('s7')">Series 7</button>
+    <button class="btn" style="font-size:12px; padding:6px 14px; background:rgba(255,217,61,0.2); color:var(--accent4);" onclick="filterCards('s63')">Series 63</button>
+  </div>
+
+  <div class="flashcard" id="flashcard-display" onclick="flipCard()">
+    <div class="flashcard-inner">
+      <div class="flashcard-front">
+        <div id="fc-tags"></div>
+        <h3 id="fc-term">Enterprise Value</h3>
+        <p class="hint" id="fc-hint">What does this measure?</p>
+      </div>
+      <div class="flashcard-back">
+        <p id="fc-answer">The total value of a business — what you'd pay to buy the entire company. Includes market cap (equity) PLUS debt, MINUS cash.</p>
+        <div class="formula" id="fc-formula">EV = Market Cap + Debt − Cash</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-nav">
+    <button onclick="prevCard()">← Previous</button>
+    <span class="counter" id="fc-counter">1 / 30</span>
+    <button onclick="nextCard()">Next →</button>
+  </div>
+</div>
+
+<!-- ===================== QUIZ ===================== -->
+<div id="quiz" class="page">
+  <h1>Quiz Mode</h1>
+  <p class="subtitle">Test your understanding. These are the types of questions that separate "heard of it" from "understand it."</p>
+
+  <div class="card">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+      <h2 id="quiz-header">Question 1 of 12</h2>
+      <div style="font-size:14px;"><span style="color:var(--accent2);" id="quiz-score">0</span> / <span id="quiz-total">0</span></div>
+    </div>
+    <p style="font-size:16px; line-height:1.6; margin-bottom:20px;" id="quiz-question"></p>
+    <div id="quiz-options"></div>
+    <div class="quiz-explanation" id="quiz-explanation"></div>
+    <div style="margin-top:20px; display:flex; gap:12px;">
+      <button class="btn" id="quiz-next-btn" onclick="nextQuiz()" style="display:none;">Next Question →</button>
+      <button class="btn" onclick="resetQuiz()" style="background:var(--card); border:1px solid var(--border);">Reset</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== PAGE NAV =====
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ===== 3-STATEMENT MODEL =====
+function updateThreeStmt(rev) {
+  rev = parseInt(rev);
+  document.getElementById('rev-display').textContent = '$' + rev.toLocaleString();
+  const cogs = Math.round(rev * 0.4);
+  const gp = rev - cogs;
+  const opex = 200;
+  const da = 50;
+  const ebit = gp - opex - da;
+  const interest = 35;
+  const ebt = ebit - interest;
+  const tax = Math.round(ebt * 0.25);
+  const ni = ebt - tax;
+  const cfo = ni + da - 15;
+  const capex = 80;
+  const fcf = cfo - capex;
+  const netCash = cfo - capex - 30 - 20;
+  const endCash = 140 + netCash;
+  const re = 125 + ni - 20;
+  const ppe = 500; // simplified
+  const assets = endCash + 120 + 80 + ppe;
+  const le = 90 + 320 + re + 200; // debt reduced by 30
+
+  document.getElementById('is-rev').textContent = '$' + rev.toLocaleString();
+  document.getElementById('is-ebit').textContent = '$' + ebit.toLocaleString();
+  document.getElementById('is-tax').textContent = '($' + tax.toLocaleString() + ')';
+  document.getElementById('is-ni').textContent = '$' + ni.toLocaleString();
+  document.getElementById('cf-ni').textContent = '$' + ni.toLocaleString();
+  document.getElementById('cf-cfo').textContent = '$' + cfo.toLocaleString();
+  document.getElementById('cf-net').textContent = '$' + netCash.toLocaleString();
+  document.getElementById('cf-end').textContent = '$' + endCash.toLocaleString();
+  document.getElementById('bs-cash').textContent = '$' + endCash.toLocaleString();
+  document.getElementById('bs-re').textContent = '$' + re.toLocaleString();
+  document.getElementById('bs-assets').textContent = '$' + assets.toLocaleString();
+  document.getElementById('bs-le').textContent = '$' + (90 + 320 + re + 200).toLocaleString();
+}
+
+// ===== DCF CALCULATOR =====
+let dcfChart;
+function updateDCF() {
+  const fcf0 = parseInt(document.getElementById('dcf-fcf').value);
+  const growth = parseFloat(document.getElementById('dcf-growth').value) / 100;
+  const marginDelta = parseFloat(document.getElementById('dcf-margin').value) / 100;
+  const wacc = parseFloat(document.getElementById('dcf-wacc').value) / 100;
+  const tgr = parseFloat(document.getElementById('dcf-tgr').value) / 100;
+  const netDebt = parseInt(document.getElementById('dcf-debt').value);
+  const shares = parseInt(document.getElementById('dcf-shares').value);
+
+  // Update labels
+  document.getElementById('dcf-fcf-val').textContent = '$' + fcf0;
+  document.getElementById('dcf-growth-val').textContent = (growth*100).toFixed(0) + '%';
+  document.getElementById('dcf-margin-val').textContent = (marginDelta >= 0 ? '+' : '') + (marginDelta*100).toFixed(1) + '%';
+  document.getElementById('dcf-wacc-val').textContent = (wacc*100).toFixed(1) + '%';
+  document.getElementById('dcf-tgr-val').textContent = (tgr*100).toFixed(1) + '%';
+  document.getElementById('dcf-debt-val').textContent = '$' + netDebt;
+  document.getElementById('dcf-shares-val').textContent = shares;
+
+  // Project FCFs
+  const fcfs = [];
+  const pvFcfs = [];
+  let totalPvFcf = 0;
+  for (let i = 1; i <= 5; i++) {
+    const fcf = fcf0 * Math.pow(1 + growth, i) * (1 + marginDelta * i);
+    const pv = fcf / Math.pow(1 + wacc, i);
+    fcfs.push(Math.round(fcf));
+    pvFcfs.push(Math.round(pv));
+    totalPvFcf += pv;
+  }
+
+  // Terminal Value
+  const finalFcf = fcfs[4];
+  const tv = finalFcf * (1 + tgr) / (wacc - tgr);
+  const pvTv = tv / Math.pow(1 + wacc, 5);
+
+  const ev = totalPvFcf + pvTv;
+  const equityVal = ev - netDebt;
+  const price = equityVal / shares;
+
+  document.getElementById('dcf-ev').textContent = '$' + Math.round(ev).toLocaleString() + 'M';
+  document.getElementById('dcf-pv-fcf').textContent = '$' + Math.round(totalPvFcf).toLocaleString() + 'M';
+  document.getElementById('dcf-pv-tv').textContent = '$' + Math.round(pvTv).toLocaleString() + 'M';
+  document.getElementById('dcf-pv-pct').textContent = Math.round(totalPvFcf/ev*100) + '% of EV';
+  document.getElementById('dcf-tv-pct').textContent = Math.round(pvTv/ev*100) + '% of EV';
+  document.getElementById('dcf-equity').textContent = '$' + Math.round(equityVal).toLocaleString() + 'M';
+  document.getElementById('dcf-price').textContent = '$' + price.toFixed(2);
+
+  // Chart
+  const ctx = document.getElementById('dcf-chart').getContext('2d');
+  if (dcfChart) dcfChart.destroy();
+  dcfChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+      datasets: [{
+        label: 'Projected FCF',
+        data: fcfs,
+        backgroundColor: 'rgba(108, 99, 255, 0.6)',
+        borderColor: '#6c63ff',
+        borderWidth: 1,
+        borderRadius: 4,
+      }, {
+        label: 'Present Value',
+        data: pvFcfs,
+        backgroundColor: 'rgba(0, 212, 170, 0.6)',
+        borderColor: '#00d4aa',
+        borderWidth: 1,
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: '#9ca3af' } } },
+      scales: {
+        x: { ticks: { color: '#9ca3af' }, grid: { color: 'rgba(45,49,72,0.5)' } },
+        y: { ticks: { color: '#9ca3af', callback: v => '$'+v+'M' }, grid: { color: 'rgba(45,49,72,0.5)' } }
+      }
+    }
+  });
+
+  // Sensitivity table
+  buildDCFSens(fcf0, growth, marginDelta, wacc, tgr, netDebt, shares);
+}
+
+function buildDCFSens(fcf0, growth, marginDelta, baseWacc, baseTgr, netDebt, shares) {
+  const waccs = [baseWacc-0.02, baseWacc-0.01, baseWacc, baseWacc+0.01, baseWacc+0.02];
+  const tgrs = [baseTgr-0.01, baseTgr-0.005, baseTgr, baseTgr+0.005, baseTgr+0.01];
+
+  let html = '<tr><th>WACC ↓ \\ g →</th>';
+  tgrs.forEach(t => html += '<th>' + (t*100).toFixed(1) + '%</th>');
+  html += '</tr>';
+
+  waccs.forEach(w => {
+    html += '<tr><th>' + (w*100).toFixed(1) + '%</th>';
+    tgrs.forEach(t => {
+      if (w <= t) { html += '<td>N/A</td>'; return; }
+      let totalPv = 0;
+      let lastFcf = 0;
+      for (let i = 1; i <= 5; i++) {
+        const fcf = fcf0 * Math.pow(1+growth,i) * (1+marginDelta*i);
+        totalPv += fcf / Math.pow(1+w,i);
+        if (i===5) lastFcf = fcf;
+      }
+      const tv = lastFcf*(1+t)/(w-t);
+      const pvTv = tv/Math.pow(1+w,5);
+      const price = (totalPv + pvTv - netDebt) / shares;
+      const isBase = Math.abs(w-baseWacc)<0.001 && Math.abs(t-baseTgr)<0.001;
+      html += '<td class="' + (isBase?'highlight':'') + '">$' + price.toFixed(2) + '</td>';
+    });
+    html += '</tr>';
+  });
+  document.getElementById('dcf-sens-table').innerHTML = html;
+}
+
+// ===== LBO SIMULATOR =====
+function updateLBO() {
+  const ebitda0 = parseInt(document.getElementById('lbo-ebitda').value);
+  const entryMult = parseFloat(document.getElementById('lbo-entry').value);
+  const leverage = parseInt(document.getElementById('lbo-lev').value) / 100;
+  const rate = parseFloat(document.getElementById('lbo-rate').value) / 100;
+  const ebitdaGrowth = parseInt(document.getElementById('lbo-grow').value) / 100;
+  const fcfConv = parseInt(document.getElementById('lbo-fcf').value) / 100;
+  const exitMult = parseFloat(document.getElementById('lbo-exit').value);
+  const holdYears = parseInt(document.getElementById('lbo-hold').value);
+
+  // Labels
+  document.getElementById('lbo-ebitda-val').textContent = '$' + ebitda0;
+  document.getElementById('lbo-entry-val').textContent = entryMult.toFixed(1) + 'x';
+  document.getElementById('lbo-lev-val').textContent = (leverage*100) + '%';
+  document.getElementById('lbo-rate-val').textContent = (rate*100).toFixed(1) + '%';
+  document.getElementById('lbo-grow-val').textContent = (ebitdaGrowth*100) + '%';
+  document.getElementById('lbo-fcf-val').textContent = (fcfConv*100) + '%';
+  document.getElementById('lbo-exit-val').textContent = exitMult.toFixed(1) + 'x';
+  document.getElementById('lbo-hold-val').textContent = holdYears;
+
+  const ev0 = ebitda0 * entryMult;
+  const debt0 = ev0 * leverage;
+  const equity0 = ev0 - debt0;
+
+  // Simulate hold period
+  let debt = debt0;
+  for (let i = 1; i <= holdYears; i++) {
+    const ebitda = ebitda0 * Math.pow(1 + ebitdaGrowth, i);
+    const interest = debt * rate;
+    const fcf = ebitda * fcfConv - interest;
+    const paydown = Math.min(Math.max(fcf * 0.7, 0), debt);
+    debt -= paydown;
+  }
+
+  const exitEbitda = ebitda0 * Math.pow(1 + ebitdaGrowth, holdYears);
+  const exitEV = exitEbitda * exitMult;
+  const exitEquity = exitEV - Math.max(debt, 0);
+  const moic = exitEquity / equity0;
+  const irr = (Math.pow(moic, 1/holdYears) - 1) * 100;
+
+  document.getElementById('lbo-irr').textContent = irr.toFixed(1) + '%';
+  document.getElementById('lbo-irr').style.color = irr >= 20 ? 'var(--accent2)' : irr >= 15 ? 'var(--accent4)' : 'var(--accent3)';
+  document.getElementById('lbo-moic').textContent = moic.toFixed(2) + 'x';
+  document.getElementById('lbo-check').textContent = '$' + Math.round(equity0) + 'M';
+
+  // Waterfall
+  const debtPaydown = debt0 - debt;
+  const ebitdaGrowthVal = (exitEbitda - ebitda0) * entryMult;
+  const multExpansion = exitEbitda * (exitMult - entryMult);
+  const maxVal = Math.max(equity0, exitEquity, ebitdaGrowthVal, debtPaydown, Math.abs(multExpansion));
+
+  const wf = document.getElementById('lbo-waterfall');
+  const items = [
+    { label: 'Entry Equity', value: equity0, color: '#4a4a6a' },
+    { label: 'EBITDA Growth', value: ebitdaGrowthVal, color: 'var(--accent)' },
+    { label: 'Debt Paydown', value: debtPaydown, color: 'var(--accent2)' },
+    { label: 'Multiple Δ', value: multExpansion, color: 'var(--accent4)' },
+    { label: 'Exit Equity', value: exitEquity, color: 'var(--accent2)' },
+  ];
+
+  wf.innerHTML = items.map(item => {
+    const h = Math.max((Math.abs(item.value) / maxVal) * 220, 20);
+    return `<div class="wf-bar">
+      <div class="wf-bar-fill" style="height:${h}px; background:${item.color};">$${Math.round(item.value)}M</div>
+      <div class="wf-bar-label">${item.label}</div>
+    </div>`;
+  }).join('');
+
+  // LBO Sensitivity
+  buildLBOSens(ebitda0, leverage, rate, ebitdaGrowth, fcfConv, holdYears, entryMult, exitMult);
+}
+
+function buildLBOSens(ebitda0, leverage, rate, growth, fcfConv, hold, baseEntry, baseExit) {
+  const entries = [baseEntry-2, baseEntry-1, baseEntry, baseEntry+1, baseEntry+2];
+  const exits = [baseExit-2, baseExit-1, baseExit, baseExit+1, baseExit+2];
+
+  let html = '<tr><th>Entry ↓ \\ Exit →</th>';
+  exits.forEach(e => html += '<th>' + e.toFixed(1) + 'x</th>');
+  html += '</tr>';
+
+  entries.forEach(en => {
+    html += '<tr><th>' + en.toFixed(1) + 'x</th>';
+    exits.forEach(ex => {
+      const ev0 = ebitda0 * en;
+      const debt0 = ev0 * leverage;
+      const eq0 = ev0 - debt0;
+      let debt = debt0;
+      for (let i = 1; i <= hold; i++) {
+        const eb = ebitda0 * Math.pow(1+growth, i);
+        const int = debt * rate;
+        const fcf = eb * fcfConv - int;
+        debt -= Math.min(Math.max(fcf*0.7,0), debt);
+      }
+      const exitEB = ebitda0 * Math.pow(1+growth, hold);
+      const exitEq = exitEB * ex - Math.max(debt, 0);
+      const moic = exitEq / eq0;
+      const irr = (Math.pow(Math.max(moic, 0.01), 1/hold) - 1) * 100;
+      const isBase = Math.abs(en-baseEntry)<0.01 && Math.abs(ex-baseExit)<0.01;
+      const color = irr >= 20 ? 'color:var(--accent2)' : irr >= 15 ? 'color:var(--accent4)' : irr < 10 ? 'color:var(--accent3)' : '';
+      html += `<td class="${isBase?'highlight':''}" style="${isBase?'':color}">${irr.toFixed(1)}%</td>`;
+    });
+    html += '</tr>';
+  });
+  document.getElementById('lbo-sens-table').innerHTML = html;
+}
+
+// ===== FOOTBALL FIELD =====
+function updateFootball() {
+  const price = parseInt(document.getElementById('ff-price').value);
+  const dcfLo = parseInt(document.getElementById('ff-dcf-lo').value);
+  const dcfHi = parseInt(document.getElementById('ff-dcf-hi').value);
+  const hi52 = parseInt(document.getElementById('ff-52').value);
+
+  document.getElementById('ff-price-val').textContent = '$' + price;
+  document.getElementById('ff-dcf-lo-val').textContent = '$' + dcfLo;
+  document.getElementById('ff-dcf-hi-val').textContent = '$' + dcfHi;
+  document.getElementById('ff-52-val').textContent = '$' + hi52;
+
+  const methods = [
+    { label: 'DCF Valuation', lo: dcfLo, hi: dcfHi, color: 'rgba(108, 99, 255, 0.7)' },
+    { label: 'Trading Comps', lo: Math.round(dcfLo*1.05), hi: Math.round(dcfHi*0.95), color: 'rgba(0, 212, 170, 0.7)' },
+    { label: 'Precedent Txns', lo: Math.round(dcfLo*1.15), hi: Math.round(dcfHi*1.1), color: 'rgba(255, 217, 61, 0.7)' },
+    { label: 'LBO Floor', lo: Math.round(dcfLo*0.85), hi: Math.round(dcfLo*1.1), color: 'rgba(255, 107, 107, 0.7)' },
+    { label: '52-Week Range', lo: Math.round(hi52*0.6), hi: hi52, color: 'rgba(160, 160, 180, 0.5)' },
+  ];
+
+  const allVals = methods.flatMap(m => [m.lo, m.hi]).concat([price]);
+  const min = Math.min(...allVals) - 5;
+  const max = Math.max(...allVals) + 5;
+  const range = max - min;
+
+  const ff = document.getElementById('football-field');
+  const pricePos = ((price - min) / range) * 100;
+
+  ff.innerHTML = methods.map(m => {
+    const left = ((m.lo - min) / range) * 100;
+    const width = ((m.hi - m.lo) / range) * 100;
+    return `<div class="ff-row">
+      <div class="ff-label">${m.label}</div>
+      <div class="ff-bar-container">
+        <div class="ff-bar" style="left:${left}%; width:${width}%; background:${m.color};">
+          <span>$${m.lo}</span><span>$${m.hi}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('') + `
+    <div class="ff-row">
+      <div class="ff-label"></div>
+      <div class="ff-bar-container">
+        <div class="ff-marker" style="left:${pricePos}%;">
+          <div class="ff-marker-label">Current: $${price}</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ===== FLASHCARDS =====
+const flashcards = [
+  { term: 'Enterprise Value (EV)', answer: 'The total value of a business — what you\'d pay to buy the entire company, including assuming its debt.', formula: 'EV = Market Cap + Debt − Cash', tags: ['sie', 's7'] },
+  { term: 'Free Cash Flow (FCF)', answer: 'Cash generated by the business after maintaining/expanding assets. The most important number for valuation — it\'s what\'s actually available to investors.', formula: 'FCF = CFO − CapEx', tags: ['s7'] },
+  { term: 'WACC', answer: 'Weighted Average Cost of Capital — the blended required return for all capital providers (debt + equity). Used as the discount rate in DCF.', formula: 'WACC = (E/V × Re) + (D/V × Rd × (1-T))', tags: ['s7'] },
+  { term: 'P/E Ratio', answer: 'Price-to-Earnings — how much investors pay per dollar of earnings. A P/E of 20 means paying $20 for each $1 of annual profit.', formula: 'P/E = Share Price ÷ EPS', tags: ['sie', 's7'] },
+  { term: 'EV/EBITDA', answer: 'The workhorse valuation multiple. Removes differences in capital structure, taxes, and depreciation policies — making companies more comparable.', formula: 'EV/EBITDA = Enterprise Value ÷ EBITDA', tags: ['s7'] },
+  { term: 'Yield Curve', answer: 'Graph of interest rates across maturities. Normally slopes upward (longer = higher rate). An inverted curve (short > long) has preceded every recession since 1950.', formula: '', tags: ['sie'] },
+  { term: 'Beta (β)', answer: 'Measures a stock\'s volatility relative to the market. β=1 moves with the market, β>1 is more volatile, β<1 is less. Used in CAPM to calculate cost of equity.', formula: 'Re = Rf + β × (Rm − Rf)', tags: ['sie', 's7'] },
+  { term: 'Fiduciary Duty', answer: 'Legal obligation to act in the client\'s best interest. Investment advisers (RIAs) have fiduciary duty. Broker-dealers have a lower "suitability" standard (though Reg BI raised it).', formula: '', tags: ['s63'] },
+  { term: 'Blue Sky Laws', answer: 'State-level securities regulations (the core of Series 63). Each state can impose its OWN registration requirements on top of federal law. The Uniform Securities Act provides a model framework.', formula: '', tags: ['s63'] },
+  { term: 'Accredited Investor', answer: 'Someone wealthy/sophisticated enough to invest in unregistered securities (hedge funds, PE, private placements). Threshold: $200K+ income or $1M+ net worth (excluding primary residence).', formula: '', tags: ['sie', 's63'] },
+  { term: 'Reg D (Private Placement)', answer: 'Exemption from SEC registration for private offerings. Rule 506(b): up to 35 non-accredited investors, no general solicitation. Rule 506(c): unlimited accredited only, general solicitation OK.', formula: '', tags: ['sie', 's63'] },
+  { term: 'Duration', answer: 'Measures a bond\'s sensitivity to interest rate changes. A duration of 5 means the bond price drops ~5% if rates rise 1%. Longer duration = more rate risk.', formula: 'ΔPrice ≈ −Duration × ΔRate', tags: ['sie', 's7'] },
+  { term: 'Current Yield vs YTM', answer: 'Current yield = annual coupon ÷ current price (simple snapshot). YTM = total annualized return if held to maturity, including capital gain/loss. YTM is more complete.', formula: 'Current Yield = Annual Coupon ÷ Price', tags: ['sie', 's7'] },
+  { term: 'Call vs Put Options', answer: 'Call = right to BUY at strike price (bullish bet). Put = right to SELL at strike price (bearish bet or insurance). Buyer pays premium, seller collects it.', formula: 'Call profit = Max(0, Stock − Strike) − Premium', tags: ['s7'] },
+  { term: 'Margin Account', answer: 'Borrow money from your broker to buy more securities. Reg T sets initial margin at 50%. Maintenance margin is typically 25%. If equity falls below maintenance → margin call.', formula: 'Buying Power = Cash ÷ (1 − Margin Rate)', tags: ['s7'] },
+  { term: 'Insider Trading', answer: 'Trading on material, non-public information (MNPI). Illegal under Rule 10b-5. "Material" = would a reasonable investor consider it important? Both the tipper and tippee are liable.', formula: '', tags: ['sie', 's63'] },
+  { term: 'Net Asset Value (NAV)', answer: 'The per-share value of a mutual fund. Calculated daily after market close. You buy/sell mutual fund shares at NAV (plus any sales load).', formula: 'NAV = (Total Assets − Liabilities) ÷ Shares Outstanding', tags: ['sie', 's7'] },
+  { term: 'Suitability vs Best Interest', answer: 'Suitability (FINRA 2111): recommendation must be "suitable" for the customer. Reg BI: higher standard — must act in "best interest" without putting your interest first. Not quite fiduciary.', formula: '', tags: ['sie', 's7'] },
+  { term: 'Municipal Bonds', answer: 'Debt issued by state/local governments. Interest is exempt from federal income tax (and often state tax if you live there). Lower yield but after-tax return can beat taxable bonds for high-income investors.', formula: 'Tax-Equivalent Yield = Muni Yield ÷ (1 − Tax Rate)', tags: ['sie', 's7'] },
+  { term: 'Money Multiple (MOIC)', answer: 'Multiple of Invested Capital — total return as a multiple of what you put in. 2.5x MOIC means you got back $2.50 for every $1 invested. Used alongside IRR in PE.', formula: 'MOIC = Exit Equity ÷ Entry Equity', tags: ['s7'] },
+  { term: 'SEC Registration', answer: 'Securities must be registered with the SEC before public sale (Securities Act of 1933) unless an exemption applies. Process includes filing a prospectus with material information.', formula: '', tags: ['sie', 's63'] },
+  { term: 'Diversification', answer: 'Spreading investments across assets to reduce unsystematic (company-specific) risk. Cannot eliminate systematic (market) risk. Modern Portfolio Theory shows the "efficient frontier" of optimal portfolios.', formula: '', tags: ['sie'] },
+  { term: 'Sharpe Ratio', answer: 'Risk-adjusted return — how much excess return per unit of risk. Higher = better. Compares portfolios on equal risk footing.', formula: 'Sharpe = (Rp − Rf) ÷ σp', tags: ['s7'] },
+  { term: 'Control Premium', answer: 'Extra amount (typically 20-40%) that an acquirer pays above market price for a controlling stake. Reflects synergies, strategic value, and the ability to control decisions.', formula: '', tags: ['s7'] },
+  { term: 'Debt Covenants', answer: 'Contractual restrictions lenders impose on borrowers. Maintenance covenants (must maintain ratios like Debt/EBITDA < 4x). Incurrence covenants (can\'t take on more debt above threshold).', formula: '', tags: ['s7'] },
+  { term: 'Registration Exemptions (63)', answer: 'Key state-level exemptions: isolated non-issuer transactions, institutional investors, existing shareholders, unsolicited orders. The Series 63 tests whether you know WHICH exemptions apply.', formula: '', tags: ['s63'] },
+  { term: 'Administrator Powers (63)', answer: 'State securities administrator can: deny/revoke registrations, issue cease & desist orders, investigate fraud. Cannot impose criminal penalties (only courts can). Can subpoena records.', formula: '', tags: ['s63'] },
+  { term: 'Working Capital', answer: 'Short-term liquidity measure. Positive = company can cover near-term obligations. Negative working capital isn\'t always bad (Amazon runs on negative WC by collecting before paying suppliers).', formula: 'Working Capital = Current Assets − Current Liabilities', tags: ['sie', 's7'] },
+  { term: 'IPO Process', answer: 'Initial Public Offering — first time a company sells shares to the public. Involves S-1 filing, SEC review, roadshow, book building, and pricing. Underwriters (investment banks) manage the process.', formula: '', tags: ['sie', 's7'] },
+  { term: 'Breakpoint (Mutual Funds)', answer: 'Volume discount on sales loads (front-end fees). Larger investments qualify for lower percentage fees. Letter of Intent lets you commit to reaching a breakpoint within 13 months.', formula: '', tags: ['sie', 's7'] },
+];
+
+let currentCard = 0;
+let filteredCards = [...flashcards];
+let cardFilter = 'all';
+
+function filterCards(tag) {
+  cardFilter = tag;
+  filteredCards = tag === 'all' ? [...flashcards] : flashcards.filter(c => c.tags.includes(tag));
+  currentCard = 0;
+  showCard();
+}
+
+function showCard() {
+  const card = filteredCards[currentCard];
+  document.getElementById('fc-term').textContent = card.term;
+  document.getElementById('fc-hint').textContent = 'Click to reveal →';
+  document.getElementById('fc-answer').textContent = card.answer;
+  document.getElementById('fc-formula').textContent = card.formula;
+  document.getElementById('fc-formula').style.display = card.formula ? 'block' : 'none';
+  document.getElementById('fc-tags').innerHTML = card.tags.map(t =>
+    `<span class="tag tag-${t}">${t.toUpperCase()}</span>`).join('');
+  document.getElementById('fc-counter').textContent = (currentCard+1) + ' / ' + filteredCards.length;
+  document.getElementById('flashcard-display').classList.remove('flipped');
+}
+
+function flipCard() { document.getElementById('flashcard-display').classList.toggle('flipped'); }
+function nextCard() { currentCard = (currentCard + 1) % filteredCards.length; showCard(); }
+function prevCard() { currentCard = (currentCard - 1 + filteredCards.length) % filteredCards.length; showCard(); }
+
+// ===== QUIZ =====
+const quizzes = [
+  { q: 'A company has Net Income of $100M and Depreciation of $30M. CapEx is $50M. Working capital increased by $10M. What is Free Cash Flow?', options: ['$100M', '$70M', '$80M', '$130M'], correct: 1, explain: 'FCF starts with Net Income ($100M), adds back depreciation ($30M = non-cash), subtracts CapEx ($50M), and subtracts working capital increase ($10M). FCF = $100 + $30 − $50 − $10 = $70M. Alternatively: CFO ($120M) − CapEx ($50M) = $70M.' },
+  { q: 'Why is EV/EBITDA preferred over P/E for comparing companies?', options: ['It\'s simpler to calculate', 'It removes differences in capital structure, tax rates, and depreciation policies', 'It always gives a lower number', 'P/E is actually preferred'], correct: 1, explain: 'EV/EBITDA is "capital structure neutral." Two identical businesses with different debt levels will have different P/E ratios (interest expense differs) but similar EV/EBITDA. It also removes depreciation policy differences.' },
+  { q: 'A bond has a duration of 7. If interest rates rise by 0.5%, what happens to the bond price?', options: ['Rises ~3.5%', 'Falls ~3.5%', 'Falls ~7%', 'No change'], correct: 1, explain: 'Price change ≈ −Duration × ΔRate = −7 × 0.005 = −3.5%. Duration measures interest rate sensitivity. Longer duration = more price volatility from rate changes.' },
+  { q: 'In an LBO, returns primarily come from which three sources?', options: ['Revenue, margins, and tax savings', 'Debt paydown, EBITDA growth, and multiple expansion', 'Cost cutting, layoffs, and asset sales', 'IPO, dividends, and interest income'], correct: 1, explain: 'The three value creation levers in PE: (1) Debt paydown — company\'s cash flow reduces debt, increasing equity value, (2) EBITDA growth — grow the business, (3) Multiple expansion — sell at a higher multiple than you bought at.' },
+  { q: 'A company trades at $50/share with 100M shares. It has $2B in debt and $500M in cash. What is Enterprise Value?', options: ['$5.0B', '$6.5B', '$7.0B', '$4.5B'], correct: 1, explain: 'Market Cap = $50 × 100M = $5B. EV = Market Cap + Debt − Cash = $5B + $2B − $0.5B = $6.5B. Think of EV as the total acquisition price — you buy all equity AND assume all debt, but you get the cash.' },
+  { q: 'Why does terminal value typically represent 60-80% of a DCF\'s total value?', options: ['The model has an error', 'A company generates most of its cash after the explicit forecast period (in perpetuity)', 'Terminal value is calculated differently', 'The discount rate is too low'], correct: 1, explain: 'Terminal value captures ALL cash flows from year 6 to infinity. Even though each year\'s cash flow is discounted more, the perpetuity sum is enormous. This is why terminal growth rate and exit multiple assumptions are so critical — small changes swing billions.' },
+  { q: 'An inverted yield curve means:', options: ['Long-term rates are higher than short-term rates', 'Short-term rates are higher than long-term rates', 'All rates are equal', 'The Fed has cut rates'], correct: 1, explain: 'Normally the yield curve slopes upward (you get paid more for locking up money longer). Inversion (short > long) signals the market expects rates to fall — typically because it expects a recession. It has preceded every US recession since 1950.' },
+  { q: 'What is the key difference between a fiduciary standard and a suitability standard?', options: ['Fiduciaries earn more money', 'Fiduciaries must act in the client\'s BEST interest; suitability only requires the recommendation be "suitable"', 'There is no real difference', 'Suitability is a higher standard'], correct: 1, explain: 'Fiduciary (RIAs): must put client\'s interest FIRST, disclose all conflicts, act with care. Suitability (broker-dealers): recommendation just needs to be "suitable" given the client\'s profile — even if a better option exists. Reg BI raised the BD standard but still isn\'t true fiduciary.' },
+  { q: 'Company A: Revenue $500M, EBITDA $100M. Comparable companies trade at 12x EV/EBITDA. Net debt is $400M, 50M shares. Implied share price?', options: ['$24.00', '$16.00', '$20.00', '$12.00'], correct: 1, explain: 'Implied EV = $100M × 12 = $1,200M. Equity Value = $1,200M − $400M net debt = $800M. Share price = $800M ÷ 50M = $16.00. This is how trading comps work — apply the peer multiple to derive an implied valuation.' },
+  { q: 'What is the PRIMARY risk of a leveraged buyout for the PE firm?', options: ['The company might grow too fast', 'High debt levels mean even small operational problems can cause default', 'Interest rates might decrease', 'The company might become too profitable'], correct: 1, explain: 'Leverage amplifies both returns AND risk. If EBITDA declines and the company can\'t service its debt, it defaults — equity gets wiped out. This is why PE firms focus on businesses with stable, predictable cash flows. The same leverage that turns 1.3x into 2.7x can turn 0.8x into 0x.' },
+  { q: 'A municipal bond yields 3.5%. You\'re in the 37% federal tax bracket. What is the tax-equivalent yield?', options: ['3.5%', '4.72%', '5.56%', '2.21%'], correct: 2, explain: 'Tax-Equivalent Yield = Muni Yield ÷ (1 − Tax Rate) = 3.5% ÷ (1 − 0.37) = 3.5% ÷ 0.63 = 5.56%. This means you\'d need a taxable bond yielding 5.56% to match the after-tax return of this 3.5% muni bond. This is why munis are attractive for high-income investors.' },
+  { q: 'Net Income is $200M but Free Cash Flow is $120M. Which of these could explain the gap?', options: ['Revenue was recognized before cash was collected', 'The company spent heavily on CapEx beyond depreciation', 'Working capital increased (built up inventory/receivables)', 'All of the above'], correct: 3, explain: 'All three create a gap between NI and FCF. (1) Revenue recognition ≠ cash collection → higher receivables. (2) CapEx exceeds depreciation → cash goes out but only D&A hits the income statement. (3) Working capital build-up ties up cash. This is the core lesson: profitable companies can still burn cash.' },
+];
+
+let quizIdx = 0;
+let quizScore = 0;
+let quizAnswered = 0;
+
+function showQuiz() {
+  const q = quizzes[quizIdx];
+  document.getElementById('quiz-header').textContent = 'Question ' + (quizIdx+1) + ' of ' + quizzes.length;
+  document.getElementById('quiz-question').textContent = q.q;
+  document.getElementById('quiz-explanation').style.display = 'none';
+  document.getElementById('quiz-next-btn').style.display = 'none';
+
+  const opts = document.getElementById('quiz-options');
+  opts.innerHTML = q.options.map((o, i) => `<div class="quiz-option" onclick="answerQuiz(${i})">${o}</div>`).join('');
+}
+
+function answerQuiz(idx) {
+  const q = quizzes[quizIdx];
+  const opts = document.querySelectorAll('.quiz-option');
+  if (opts[0].classList.contains('correct') || opts[0].classList.contains('wrong')) return;
+
+  quizAnswered++;
+  opts.forEach((o, i) => {
+    if (i === q.correct) o.classList.add('correct');
+    else if (i === idx) o.classList.add('wrong');
+  });
+
+  if (idx === q.correct) quizScore++;
+  document.getElementById('quiz-score').textContent = quizScore;
+  document.getElementById('quiz-total').textContent = quizAnswered;
+
+  document.getElementById('quiz-explanation').textContent = q.explain;
+  document.getElementById('quiz-explanation').style.display = 'block';
+  document.getElementById('quiz-next-btn').style.display = 'inline-block';
+}
+
+function nextQuiz() {
+  quizIdx = (quizIdx + 1) % quizzes.length;
+  showQuiz();
+}
+
+function resetQuiz() {
+  quizIdx = 0; quizScore = 0; quizAnswered = 0;
+  document.getElementById('quiz-score').textContent = '0';
+  document.getElementById('quiz-total').textContent = '0';
+  showQuiz();
+}
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  updateDCF();
+  updateLBO();
+  updateFootball();
+  showCard();
+  showQuiz();
+
+  // Linkage badge hover effects
+  document.querySelectorAll('.linkage-badge').forEach(badge => {
+    badge.addEventListener('mouseenter', () => {
+      const link = badge.dataset.link;
+      document.querySelectorAll(`[data-link="${link}"]`).forEach(el => {
+        el.style.background = 'var(--accent)';
+        el.style.transform = 'scale(1.1)';
+      });
+    });
+    badge.addEventListener('mouseleave', () => {
+      document.querySelectorAll('.linkage-badge').forEach(el => {
+        el.style.background = '';
+        el.style.transform = '';
+      });
+    });
+  });
+});
+</script>
+</body>
+</html>
