@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Options Payoff Lab</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --card-hover: #22263a;
+    --accent: #6c63ff;      /* P/L line */
+    --gain: #009e97;        /* profit pole */
+    --loss: #d94f4f;        /* loss pole */
+    --marker: #b8860b;      /* current price marker */
+    --text: #e4e4e7;
+    --text-dim: #9ca3af;
+    --border: #2d3148;
+    --input-bg: #141720;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 28px; }
+  .wrap { max-width: 1280px; margin: 0 auto; }
+  h1 { font-size: 26px; margin-bottom: 6px; }
+  .subtitle { color: var(--text-dim); margin-bottom: 22px; font-size: 14px; }
+  .subtitle a { color: var(--accent); text-decoration: none; }
+
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .layout { display: grid; grid-template-columns: 300px 1fr; gap: 18px; align-items: start; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+
+  /* strategy picker */
+  .strat-groups { margin-bottom: 18px; }
+  .strat-group-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); margin: 10px 0 6px; }
+  .strat-btns { display: flex; flex-wrap: wrap; gap: 6px; }
+  .strat-btns button { padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text-dim); cursor: pointer; font-size: 13px; transition: all 0.15s; }
+  .strat-btns button:hover { border-color: var(--accent); color: var(--text); }
+  .strat-btns button.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+
+  /* sliders */
+  .slider-row { margin-bottom: 14px; }
+  .slider-header { display: flex; justify-content: space-between; margin-bottom: 5px; }
+  .slider-header label { font-size: 13px; color: var(--text-dim); }
+  .slider-header .slider-val { font-size: 13px; color: var(--accent); font-weight: 600; font-family: 'SF Mono', 'Fira Code', monospace; }
+  input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 3px; background: var(--border); outline: none; }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); cursor: pointer; }
+  input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; border: none; border-radius: 50%; background: var(--accent); cursor: pointer; }
+  .controls-note { font-size: 12px; color: var(--text-dim); line-height: 1.5; margin-top: 12px; border-top: 1px solid var(--border); padding-top: 12px; }
+
+  /* chart */
+  .chart-title { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+  .chart-sub { font-size: 12px; color: var(--text-dim); margin-bottom: 10px; }
+  .chart-wrap { position: relative; }
+  #chart { width: 100%; height: auto; display: block; cursor: crosshair; }
+  .tooltip { position: absolute; pointer-events: none; background: var(--card-hover); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; font-size: 12px; line-height: 1.5; display: none; z-index: 10; white-space: nowrap; box-shadow: 0 4px 14px rgba(0,0,0,0.4); }
+  .tooltip .tt-price { color: var(--text-dim); }
+  .tooltip .tt-pl { font-weight: 700; font-family: 'SF Mono', monospace; }
+
+  /* stat tiles */
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 14px; }
+  .tile { background: var(--input-bg); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
+  .tile .t-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+  .tile .t-val { font-size: 16px; font-weight: 700; font-family: 'SF Mono', 'Fira Code', monospace; color: var(--text); }
+  .tile .t-sub { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+  .dot { width: 8px; height: 8px; border-radius: 2px; display: inline-block; flex-shrink: 0; }
+  .dot-gain { background: var(--gain); }
+  .dot-loss { background: var(--loss); }
+  .dot-line { background: var(--accent); }
+  .dot-marker { background: var(--marker); }
+
+  /* table view */
+  .table-toggle { margin-top: 12px; padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text-dim); cursor: pointer; font-size: 12px; }
+  .table-toggle:hover { color: var(--text); border-color: var(--accent); }
+  .pl-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; display: none; }
+  .pl-table th, .pl-table td { padding: 6px 10px; border: 1px solid var(--border); text-align: right; font-family: 'SF Mono', monospace; }
+  .pl-table th { background: var(--card-hover); color: var(--text-dim); font-weight: 600; }
+  .pl-table td:first-child, .pl-table th:first-child { text-align: left; font-family: inherit; }
+
+  /* notes */
+  .notes-card { margin-top: 18px; }
+  .notes-card h2 { font-size: 16px; margin-bottom: 4px; color: var(--accent); }
+  .notes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 12px; }
+  .note-block { background: var(--input-bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+  .note-block h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); margin-bottom: 6px; }
+  .note-block p { font-size: 13px; line-height: 1.55; }
+  .note-block .formula { font-family: 'SF Mono', 'Fira Code', monospace; background: rgba(108,99,255,0.12); padding: 5px 9px; border-radius: 6px; margin-top: 6px; color: var(--accent); font-size: 12px; display: inline-block; }
+  .hook { margin-top: 12px; padding: 10px 14px; background: rgba(184,134,11,0.10); border-left: 3px solid var(--marker); border-radius: 0 8px 8px 0; font-size: 13px; line-height: 1.55; }
+  .hook strong { color: var(--marker); }
+</style>
+</head>
+<body data-palette="#6c63ff,#b8860b,#009e97,#d94f4f">
+<div class="wrap">
+  <h1>Options Payoff Lab</h1>
+  <div class="subtitle">Profit and loss at expiration for the Series 7 core strategies. Part of the <a href="../index.html">Finance Learning Dashboard</a>.</div>
+
+  <div class="strat-groups card">
+    <div class="strat-group-label">Single options</div>
+    <div class="strat-btns" id="grp-single"></div>
+    <div class="strat-group-label">Stock plus option</div>
+    <div class="strat-btns" id="grp-stock"></div>
+    <div class="strat-group-label">Volatility</div>
+    <div class="strat-btns" id="grp-vol"></div>
+    <div class="strat-group-label">Vertical spreads</div>
+    <div class="strat-btns" id="grp-vert"></div>
+  </div>
+
+  <div class="layout">
+    <div class="card">
+      <div id="sliders"></div>
+      <div class="controls-note">All dollar results are for the total position: contracts &times; 100 shares. Options prices are per share.</div>
+    </div>
+
+    <div class="card">
+      <div class="chart-title" id="chart-title">Long Call: P/L at expiration</div>
+      <div class="chart-sub" id="chart-sub"></div>
+      <div class="chart-wrap">
+        <svg id="chart" viewBox="0 0 860 440" role="img" aria-label="Payoff diagram: profit and loss at expiration versus stock price"></svg>
+        <div class="tooltip" id="tooltip"></div>
+      </div>
+      <div class="tiles" id="tiles"></div>
+      <button class="table-toggle" id="table-toggle" onclick="toggleTable()">Show table view</button>
+      <table class="pl-table" id="pl-table"></table>
+    </div>
+  </div>
+
+  <div class="card notes-card">
+    <h2 id="notes-title">Series 7 notes</h2>
+    <div class="chart-sub" id="notes-sentiment"></div>
+    <div class="notes-grid" id="notes-grid"></div>
+    <div class="hook" id="notes-hook"></div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+/* ---------------- strategy definitions ---------------- */
+/* Controls: kA/kB strikes, pA/pB premiums, basis (stock cost), qty, spot, range */
+
+const CTRL = {
+  basis: { label: 'Stock purchase price', min: 40, max: 160, step: 1, fmt: v => '$' + v.toFixed(0) },
+  kA:    { label: 'Strike A', min: 40, max: 160, step: 1, fmt: v => '$' + v.toFixed(0) },
+  kB:    { label: 'Strike B', min: 40, max: 160, step: 1, fmt: v => '$' + v.toFixed(0) },
+  pA:    { label: 'Premium A', min: 0.25, max: 20, step: 0.25, fmt: v => '$' + v.toFixed(2) },
+  pB:    { label: 'Premium B', min: 0.25, max: 20, step: 0.25, fmt: v => '$' + v.toFixed(2) },
+  qty:   { label: 'Contracts', min: 1, max: 10, step: 1, fmt: v => v + ' x100 sh' },
+  spot:  { label: 'Current stock price', min: 20, max: 200, step: 0.5, fmt: v => '$' + v.toFixed(2) },
+  range: { label: 'Chart price range (+/- around strikes)', min: 15, max: 80, step: 5, fmt: v => '$' + v.toFixed(0) }
+};
+
+const S = {}; // live state
+
+const STRATS = {
+  long_call: {
+    name: 'Long Call', group: 'grp-single', sentiment: 'Bullish. Maximum leverage per dollar of any bullish position.',
+    controls: { kA: 'Call strike', pA: 'Call premium' },
+    defaults: { kA: 100, pA: 5, spot: 100 },
+    legs: s => [{ kind: 'call', dir: 1, K: s.kA, prem: s.pA }],
+    notes: {
+      be: ['Breakeven', 'Strike + Premium. "Call up": for calls, add the premium to the strike.', 'BE = Strike + Premium'],
+      gain: ['Max gain', 'Unlimited. The stock has no ceiling.', 'Unlimited above BE'],
+      loss: ['Max loss', 'The premium paid, hit anywhere at or below the strike at expiration.', 'Max loss = Premium x 100'],
+      margin: ['Margin treatment', 'Buyer pays the premium in full. Long listed options (under 9 months) have no loan value and cannot be bought on margin.']
+    },
+    hook: '<strong>Exam hook:</strong> long calls are the answer for "most leverage", "bullish with limited risk", or hedging a short stock position.'
+  },
+  short_call: {
+    name: 'Short (Naked) Call', group: 'grp-single', sentiment: 'Bearish to neutral. Writer keeps the premium if the stock stays at or below the strike.',
+    controls: { kA: 'Call strike', pA: 'Call premium' },
+    defaults: { kA: 100, pA: 5, spot: 100 },
+    legs: s => [{ kind: 'call', dir: -1, K: s.kA, prem: s.pA }],
+    notes: {
+      be: ['Breakeven', 'Strike + Premium, same point as the long call. Above it the writer loses.', 'BE = Strike + Premium'],
+      gain: ['Max gain', 'The premium received. Best case: the call expires worthless.', 'Max gain = Premium x 100'],
+      loss: ['Max loss', 'Unlimited. The riskiest position on the exam along with short stock.', 'Unlimited above BE'],
+      margin: ['Margin treatment', 'Naked call requirement: greater of (20% of stock value + premium, minus any out-of-the-money amount) or (10% of stock value + premium).']
+    },
+    hook: '<strong>Exam hook:</strong> only two positions carry unlimited risk: short stock and naked (uncovered) calls.'
+  },
+  long_put: {
+    name: 'Long Put', group: 'grp-single', sentiment: 'Bearish. Limited risk alternative to shorting stock.',
+    controls: { kA: 'Put strike', pA: 'Put premium' },
+    defaults: { kA: 100, pA: 5, spot: 100 },
+    legs: s => [{ kind: 'put', dir: 1, K: s.kA, prem: s.pA }],
+    notes: {
+      be: ['Breakeven', 'Strike minus Premium. "Put down": for puts, subtract the premium from the strike.', 'BE = Strike - Premium'],
+      gain: ['Max gain', 'Reached if the stock goes to zero.', 'Max gain = (Strike - Premium) x 100'],
+      loss: ['Max loss', 'The premium paid, at or above the strike at expiration.', 'Max loss = Premium x 100'],
+      margin: ['Margin treatment', 'Paid in full. Long puts also hedge long stock; buying a put on stock you own does not free up margin buying power.']
+    },
+    hook: '<strong>Exam hook:</strong> long puts are the answer for "bearish with limited risk" or protecting a long stock position.'
+  },
+  short_put: {
+    name: 'Short (Naked) Put', group: 'grp-single', sentiment: 'Bullish to neutral. Writer keeps the premium if the stock stays at or above the strike.',
+    controls: { kA: 'Put strike', pA: 'Put premium' },
+    defaults: { kA: 100, pA: 5, spot: 100 },
+    legs: s => [{ kind: 'put', dir: -1, K: s.kA, prem: s.pA }],
+    notes: {
+      be: ['Breakeven', 'Strike minus Premium, same point as the long put.', 'BE = Strike - Premium'],
+      gain: ['Max gain', 'The premium received. Best case: the put expires worthless.', 'Max gain = Premium x 100'],
+      loss: ['Max loss', 'Large but not unlimited: the stock can only fall to zero.', 'Max loss = (Strike - Premium) x 100'],
+      margin: ['Margin treatment', 'Same naked formula as calls: greater of 20% of stock value + premium minus OTM amount, or 10% + premium. A cash-secured put instead deposits the full strike value.']
+    },
+    hook: '<strong>Exam hook:</strong> writing a put is also how a bullish investor targets buying stock below the market while getting paid to wait.'
+  },
+  covered_call: {
+    name: 'Covered Call', group: 'grp-stock', sentiment: 'Neutral to mildly bullish. Income strategy: long stock, sell a call against it.',
+    controls: { basis: 'Stock purchase price', kA: 'Call strike (sold)', pA: 'Call premium received' },
+    defaults: { basis: 100, kA: 110, pA: 3, spot: 100 },
+    legs: s => [{ kind: 'stock', dir: 1, basis: s.basis }, { kind: 'call', dir: -1, K: s.kA, prem: s.pA }],
+    notes: {
+      be: ['Breakeven', 'Stock cost minus premium. Uses the STOCK cost, not the strike. The premium lowers your effective cost basis.', 'BE = Stock cost - Premium'],
+      gain: ['Max gain', 'Capped at the strike: stock appreciation up to the strike, plus the premium.', 'Max gain = (Strike - Cost + Premium) x 100'],
+      loss: ['Max loss', 'The stock can fall to zero; the premium is the only cushion.', 'Max loss = (Cost - Premium) x 100'],
+      margin: ['Margin treatment', 'No margin required on the short call because the stock covers it. The stock itself is marginable under Reg T at 50%.']
+    },
+    hook: '<strong>Exam hook:</strong> the most conservative option income strategy. It generates income and gives partial downside protection, but caps the upside.'
+  },
+  protective_put: {
+    name: 'Protective Put', group: 'grp-stock', sentiment: 'Bullish with insurance. Long stock, buy a put as a floor.',
+    controls: { basis: 'Stock purchase price', kA: 'Put strike (bought)', pA: 'Put premium paid' },
+    defaults: { basis: 100, kA: 90, pA: 3, spot: 100 },
+    legs: s => [{ kind: 'stock', dir: 1, basis: s.basis }, { kind: 'put', dir: 1, K: s.kA, prem: s.pA }],
+    notes: {
+      be: ['Breakeven', 'Stock cost plus premium. The insurance cost raises the price the stock must reach to profit.', 'BE = Stock cost + Premium'],
+      gain: ['Max gain', 'Unlimited. The put does not cap the upside; it only costs the premium.', 'Unlimited above BE'],
+      loss: ['Max loss', 'Locked in at the put strike floor.', 'Max loss = (Cost - Strike + Premium) x 100'],
+      margin: ['Margin treatment', 'Put is paid in full. A put bought the same day as the stock is a "married put" and its premium is added to the stock cost basis for tax purposes.']
+    },
+    hook: '<strong>Exam hook:</strong> works like insurance. Best answer for "protect a long stock position while keeping unlimited upside".'
+  },
+  long_straddle: {
+    name: 'Long Straddle', group: 'grp-vol', sentiment: 'Expects a big move, direction unknown. Buy a call and a put, same strike and expiration.',
+    controls: { kA: 'Strike (both legs)', pA: 'Call premium', pB: 'Put premium' },
+    defaults: { kA: 100, pA: 5, pB: 4, spot: 100 },
+    legs: s => [{ kind: 'call', dir: 1, K: s.kA, prem: s.pA }, { kind: 'put', dir: 1, K: s.kA, prem: s.pB }],
+    notes: {
+      be: ['Breakevens (two)', 'Strike plus and minus the TOTAL of both premiums. The move must exceed the combined cost.', 'BE = Strike +/- Total premiums'],
+      gain: ['Max gain', 'Unlimited on the upside; substantial on the downside (stock to zero).', 'Unlimited above upper BE'],
+      loss: ['Max loss', 'Both premiums, if the stock pins the strike at expiration.', 'Max loss = Total premiums x 100'],
+      margin: ['Margin treatment', 'Both long options paid in full. No margin relief for the combination.']
+    },
+    hook: '<strong>Exam hook:</strong> the answer for "expects volatility ahead of earnings or a court ruling but does not know the direction".'
+  },
+  short_straddle: {
+    name: 'Short Straddle', group: 'grp-vol', sentiment: 'Expects the stock to sit still. Sell a call and a put, same strike and expiration.',
+    controls: { kA: 'Strike (both legs)', pA: 'Call premium', pB: 'Put premium' },
+    defaults: { kA: 100, pA: 5, pB: 4, spot: 100 },
+    legs: s => [{ kind: 'call', dir: -1, K: s.kA, prem: s.pA }, { kind: 'put', dir: -1, K: s.kA, prem: s.pB }],
+    notes: {
+      be: ['Breakevens (two)', 'Same two points as the long straddle: strike plus and minus total premiums. Profitable only between them.', 'BE = Strike +/- Total premiums'],
+      gain: ['Max gain', 'Total premiums received, if the stock pins the strike.', 'Max gain = Total premiums x 100'],
+      loss: ['Max loss', 'Unlimited on the upside (naked call side), large on the downside.', 'Unlimited above upper BE'],
+      margin: ['Margin treatment', 'Requirement is the naked requirement on the greater side plus the premium of the other side.']
+    },
+    hook: '<strong>Exam hook:</strong> maximum premium income, maximum risk. Suitable only for investors who can absorb unlimited loss.'
+  },
+  long_strangle: {
+    name: 'Long Strangle', group: 'grp-vol', sentiment: 'Volatility play like the straddle, but cheaper: buy an out-of-the-money put (lower strike) and call (higher strike).',
+    controls: { kA: 'Put strike (lower)', pA: 'Put premium', kB: 'Call strike (higher)', pB: 'Call premium' },
+    defaults: { kA: 90, pA: 2.5, kB: 110, pB: 3, spot: 100 },
+    twoStrikes: true,
+    legs: s => [{ kind: 'put', dir: 1, K: s.kA, prem: s.pA }, { kind: 'call', dir: 1, K: s.kB, prem: s.pB }],
+    notes: {
+      be: ['Breakevens (two)', 'Call strike plus total premiums on the upside; put strike minus total premiums on the downside. Wider than a straddle.', 'BE = CallK + Total / PutK - Total'],
+      gain: ['Max gain', 'Unlimited upside; large downside gain if the stock collapses.', 'Unlimited above upper BE'],
+      loss: ['Max loss', 'Total premiums, anywhere between the two strikes at expiration.', 'Max loss = Total premiums x 100'],
+      margin: ['Margin treatment', 'Both legs paid in full. Cheaper than a straddle because both options start out of the money.']
+    },
+    hook: '<strong>Exam hook:</strong> lower cost than a straddle, but the stock must move further before either side pays off.'
+  },
+  bull_call: {
+    name: 'Bull Call Spread', group: 'grp-vert', sentiment: 'Moderately bullish. Buy the lower strike call, sell the higher strike call. Net DEBIT.',
+    controls: { kA: 'Long call strike (lower)', pA: 'Long call premium', kB: 'Short call strike (higher)', pB: 'Short call premium' },
+    defaults: { kA: 95, pA: 8, kB: 110, pB: 3, spot: 100 },
+    twoStrikes: true,
+    legs: s => [{ kind: 'call', dir: 1, K: s.kA, prem: s.pA }, { kind: 'call', dir: -1, K: s.kB, prem: s.pB }],
+    notes: {
+      be: ['Breakeven', 'Lower strike plus the net debit (call up, using net premium).', 'BE = Lower strike + Net debit'],
+      gain: ['Max gain', 'Difference in strikes minus the net debit, above the higher strike.', 'Max gain = (Spread - Debit) x 100'],
+      loss: ['Max loss', 'The net debit paid, at or below the lower strike.', 'Max loss = Net debit x 100'],
+      margin: ['Margin treatment', 'Debit spreads: deposit the net debit in full. The long leg covers the short leg, so no naked margin.']
+    },
+    hook: '<strong>Exam hook:</strong> debit spread rules: you want the spread to WIDEN and both options EXERCISED. Credit spreads are the opposite (narrow, expire).'
+  },
+  bear_call: {
+    name: 'Bear Call Spread', group: 'grp-vert', sentiment: 'Moderately bearish. Sell the lower strike call, buy the higher strike call. Net CREDIT.',
+    controls: { kA: 'Short call strike (lower)', pA: 'Short call premium', kB: 'Long call strike (higher)', pB: 'Long call premium' },
+    defaults: { kA: 95, pA: 8, kB: 110, pB: 3, spot: 100 },
+    twoStrikes: true,
+    legs: s => [{ kind: 'call', dir: -1, K: s.kA, prem: s.pA }, { kind: 'call', dir: 1, K: s.kB, prem: s.pB }],
+    notes: {
+      be: ['Breakeven', 'Lower strike plus the net credit.', 'BE = Lower strike + Net credit'],
+      gain: ['Max gain', 'The net credit received, at or below the lower strike.', 'Max gain = Net credit x 100'],
+      loss: ['Max loss', 'Difference in strikes minus the credit, at or above the higher strike.', 'Max loss = (Spread - Credit) x 100'],
+      margin: ['Margin treatment', 'Credit spreads: deposit the difference in strikes minus the credit received (the max loss). The long call caps the risk.']
+    },
+    hook: '<strong>Exam hook:</strong> credit spread rules: you want the spread to NARROW and both options to EXPIRE worthless.'
+  },
+  bear_put: {
+    name: 'Bear Put Spread', group: 'grp-vert', sentiment: 'Moderately bearish. Buy the higher strike put, sell the lower strike put. Net DEBIT.',
+    controls: { kA: 'Short put strike (lower)', pA: 'Short put premium', kB: 'Long put strike (higher)', pB: 'Long put premium' },
+    defaults: { kA: 90, pA: 2.5, kB: 110, pB: 8, spot: 100 },
+    twoStrikes: true,
+    legs: s => [{ kind: 'put', dir: -1, K: s.kA, prem: s.pA }, { kind: 'put', dir: 1, K: s.kB, prem: s.pB }],
+    notes: {
+      be: ['Breakeven', 'Higher strike minus the net debit (put down, using net premium).', 'BE = Higher strike - Net debit'],
+      gain: ['Max gain', 'Difference in strikes minus the net debit, at or below the lower strike.', 'Max gain = (Spread - Debit) x 100'],
+      loss: ['Max loss', 'The net debit paid, at or above the higher strike.', 'Max loss = Net debit x 100'],
+      margin: ['Margin treatment', 'Debit spread: pay the net debit in full. Want the spread to widen and both legs exercised.']
+    },
+    hook: '<strong>Exam hook:</strong> defined-risk alternative to a long put when you expect a moderate decline, not a collapse.'
+  },
+  bull_put: {
+    name: 'Bull Put Spread', group: 'grp-vert', sentiment: 'Moderately bullish. Sell the higher strike put, buy the lower strike put. Net CREDIT.',
+    controls: { kA: 'Long put strike (lower)', pA: 'Long put premium', kB: 'Short put strike (higher)', pB: 'Short put premium' },
+    defaults: { kA: 90, pA: 2.5, kB: 110, pB: 8, spot: 100 },
+    twoStrikes: true,
+    legs: s => [{ kind: 'put', dir: 1, K: s.kA, prem: s.pA }, { kind: 'put', dir: -1, K: s.kB, prem: s.pB }],
+    notes: {
+      be: ['Breakeven', 'Higher strike minus the net credit.', 'BE = Higher strike - Net credit'],
+      gain: ['Max gain', 'The net credit received, at or above the higher strike.', 'Max gain = Net credit x 100'],
+      loss: ['Max loss', 'Difference in strikes minus the credit, at or below the lower strike.', 'Max loss = (Spread - Credit) x 100'],
+      margin: ['Margin treatment', 'Credit spread: deposit strike difference minus credit (the max loss). Want the spread to narrow and both legs to expire.']
+    },
+    hook: '<strong>Exam hook:</strong> same P/L shape as a covered call but built entirely with puts and far less capital.'
+  }
+};
+
+/* ---------------- payoff engine ---------------- */
+
+function plPerShare(legs, price) {
+  let t = 0;
+  for (const l of legs) {
+    if (l.kind === 'stock') t += l.dir * (price - l.basis);
+    else if (l.kind === 'call') t += l.dir * (Math.max(0, price - l.K) - l.prem);
+    else t += l.dir * (Math.max(0, l.K - price) - l.prem);
+  }
+  return t;
+}
+
+function analyze(legs) {
+  const kinks = [...new Set(legs.filter(l => l.kind !== 'stock').map(l => l.K))].sort((a, b) => a - b);
+  let slopeR = 0, hasStock = false;
+  for (const l of legs) {
+    if (l.kind === 'stock') { slopeR += l.dir; hasStock = true; }
+    else if (l.kind === 'call') slopeR += l.dir;
+  }
+  // candidate extremes: S=0 and each kink; beyond last kink slope is slopeR
+  const cand = [0, ...kinks];
+  let maxV = -Infinity, minV = Infinity;
+  for (const x of cand) {
+    const y = plPerShare(legs, x);
+    if (y > maxV) maxV = y;
+    if (y < minV) minV = y;
+  }
+  const maxGain = slopeR > 1e-9 ? Infinity : maxV;
+  const maxLoss = slopeR < -1e-9 ? -Infinity : minV;
+
+  // breakevens: piecewise linear between [0, kinks..., far]
+  const far = (kinks.length ? kinks[kinks.length - 1] : 100) + 10000;
+  const xs = [0, ...kinks, far];
+  const bes = [];
+  for (let i = 0; i < xs.length - 1; i++) {
+    const x1 = xs[i], x2 = xs[i + 1];
+    const y1 = plPerShare(legs, x1), y2 = plPerShare(legs, x2);
+    if (Math.abs(y1) < 1e-9) { if (!bes.some(b => Math.abs(b - x1) < 1e-6)) bes.push(x1); }
+    if (y1 * y2 < 0) {
+      const bx = x1 + (0 - y1) * (x2 - x1) / (y2 - y1);
+      if (!bes.some(b => Math.abs(b - bx) < 1e-6)) bes.push(bx);
+    }
+  }
+  const yLast = plPerShare(legs, far);
+  if (Math.abs(yLast) < 1e-9 && !bes.some(b => Math.abs(b - far) < 1e-6)) bes.push(far);
+  return { kinks, slopeR, maxGain, maxLoss, breakevens: bes.filter(b => b < far).sort((a, b) => a - b) };
+}
+
+function netOptionCash(legs) { // + = credit received, - = debit paid (per share)
+  let c = 0;
+  for (const l of legs) if (l.kind !== 'stock') c += (l.dir === 1 ? -l.prem : l.prem);
+  return c;
+}
+
+/* ---------------- formatting ---------------- */
+
+const fmtMoney = v => (v < 0 ? '-$' : '$') + Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+const fmtMoney2 = v => (v < 0 ? '-$' : '$') + Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const fmtPrice = v => '$' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+/* ---------------- UI: strategy buttons + sliders ---------------- */
+
+let current = 'long_call';
+
+function buildButtons() {
+  for (const id of ['grp-single', 'grp-stock', 'grp-vol', 'grp-vert']) document.getElementById(id).innerHTML = '';
+  for (const [id, st] of Object.entries(STRATS)) {
+    const b = document.createElement('button');
+    b.textContent = st.name;
+    b.id = 'btn-' + id;
+    b.onclick = () => selectStrategy(id);
+    document.getElementById(st.group).appendChild(b);
+  }
+}
+
+function selectStrategy(id) {
+  current = id;
+  const st = STRATS[id];
+  document.querySelectorAll('.strat-btns button').forEach(b => b.classList.remove('active'));
+  document.getElementById('btn-' + id).classList.add('active');
+  // load defaults
+  Object.assign(S, { qty: S.qty || 1, spot: 100, range: S.range || 40 }, st.defaults);
+  buildSliders();
+  render();
+}
+
+function buildSliders() {
+  const st = STRATS[current];
+  const holder = document.getElementById('sliders');
+  holder.innerHTML = '';
+  const keys = [...Object.keys(st.controls), 'qty', 'spot', 'range'];
+  for (const k of keys) {
+    const def = CTRL[k];
+    const label = st.controls[k] || def.label;
+    if (S[k] === undefined) S[k] = def.min;
+    const row = document.createElement('div');
+    row.className = 'slider-row';
+    row.innerHTML = '<div class="slider-header"><label for="sl-' + k + '">' + label + '</label>' +
+      '<span class="slider-val" id="val-' + k + '">' + def.fmt(S[k]) + '</span></div>' +
+      '<input type="range" id="sl-' + k + '" min="' + def.min + '" max="' + def.max + '" step="' + def.step + '" value="' + S[k] + '" aria-label="' + label + '">';
+    holder.appendChild(row);
+    row.querySelector('input').addEventListener('input', e => onSlide(k, parseFloat(e.target.value)));
+  }
+}
+
+function onSlide(k, v) {
+  S[k] = v;
+  const st = STRATS[current];
+  if (st.twoStrikes) { // keep kA < kB with a 5 point gap
+    if (k === 'kA' && S.kB <= S.kA + 4) { S.kB = Math.min(CTRL.kB.max, S.kA + 5); syncSlider('kB'); }
+    if (k === 'kB' && S.kA >= S.kB - 4) { S.kA = Math.max(CTRL.kA.min, S.kB - 5); syncSlider('kA'); }
+  }
+  syncVal(k);
+  render();
+}
+function syncSlider(k) { const el = document.getElementById('sl-' + k); if (el) el.value = S[k]; syncVal(k); }
+function syncVal(k) { const el = document.getElementById('val-' + k); if (el) el.textContent = CTRL[k].fmt(S[k]); }
+
+/* ---------------- chart ---------------- */
+
+const W = 860, H = 440, M = { t: 24, r: 24, b: 42, l: 66 };
+const IW = W - M.l - M.r, IH = H - M.t - M.b;
+const NS = 'http://www.w3.org/2000/svg';
+let scaleState = null; // for hover
+
+function niceTicks(min, max, n) {
+  const span = max - min;
+  if (span <= 0) return [min];
+  const step0 = span / n;
+  const mag = Math.pow(10, Math.floor(Math.log10(step0)));
+  let step = mag;
+  for (const m of [1, 2, 2.5, 5, 10]) { if (step0 <= m * mag) { step = m * mag; break; } }
+  const ticks = [];
+  for (let v = Math.ceil(min / step) * step; v <= max + 1e-9; v += step) ticks.push(Math.round(v * 1000) / 1000);
+  return ticks;
+}
+
+function el(name, attrs, text) {
+  const e = document.createElementNS(NS, name);
+  for (const a in attrs) e.setAttribute(a, attrs[a]);
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+
+function render() {
+  const st = STRATS[current];
+  const legs = st.legs(S);
+  const mult = 100 * S.qty;
+  const info = analyze(legs);
+
+  // x domain around strikes (and basis)
+  const anchors = [...info.kinks];
+  legs.forEach(l => { if (l.kind === 'stock') anchors.push(l.basis); });
+  if (!anchors.length) anchors.push(100);
+  const xMin = Math.max(0, Math.min(...anchors) - S.range);
+  const xMax = Math.max(...anchors) + S.range;
+
+  // sample points: ends, kinks, breakevens, spot
+  const xsSet = new Set([xMin, xMax]);
+  info.kinks.forEach(k => { if (k > xMin && k < xMax) xsSet.add(k); });
+  info.breakevens.forEach(b => { if (b > xMin && b < xMax) xsSet.add(b); });
+  const xs = [...xsSet].sort((a, b) => a - b);
+  const pts = xs.map(x => ({ x, y: plPerShare(legs, x) * mult }));
+
+  // y domain
+  let yMin = Math.min(0, ...pts.map(p => p.y));
+  let yMax = Math.max(0, ...pts.map(p => p.y));
+  if (yMax - yMin < 1e-9) { yMax += 100; yMin -= 100; }
+  const pad = (yMax - yMin) * 0.14;
+  yMin -= pad; yMax += pad;
+
+  const sx = x => M.l + (x - xMin) / (xMax - xMin) * IW;
+  const sy = y => M.t + (yMax - y) / (yMax - yMin) * IH;
+  scaleState = { xMin, xMax, sx, sy, legs, mult };
+
+  const svg = document.getElementById('chart');
+  svg.innerHTML = '';
+
+  // defs: texture pattern for loss fill (CVD / print secondary encoding)
+  const defs = el('defs', {});
+  defs.innerHTML =
+    '<pattern id="lossTex" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">' +
+    '<rect width="7" height="7" fill="rgba(217,79,79,0.10)"></rect>' +
+    '<line x1="0" y1="0" x2="0" y2="7" stroke="rgba(217,79,79,0.28)" stroke-width="1.4"></line></pattern>';
+  svg.appendChild(defs);
+
+  // grid + y ticks
+  const yTicks = niceTicks(yMin, yMax, 6);
+  for (const t of yTicks) {
+    svg.appendChild(el('line', { x1: M.l, x2: W - M.r, y1: sy(t), y2: sy(t), stroke: '#2d3148', 'stroke-width': t === 0 ? 0 : 1, opacity: 0.55 }));
+    svg.appendChild(el('text', { x: M.l - 9, y: sy(t) + 4, 'text-anchor': 'end', fill: '#9ca3af', 'font-size': 11 }, fmtMoney(t)));
+  }
+  // x ticks
+  const xTicks = niceTicks(xMin, xMax, 8);
+  for (const t of xTicks) {
+    svg.appendChild(el('line', { x1: sx(t), x2: sx(t), y1: H - M.b, y2: H - M.b + 5, stroke: '#2d3148' }));
+    svg.appendChild(el('text', { x: sx(t), y: H - M.b + 19, 'text-anchor': 'middle', fill: '#9ca3af', 'font-size': 11 }, '$' + t));
+  }
+  // axis titles
+  svg.appendChild(el('text', { x: M.l + IW / 2, y: H - 6, 'text-anchor': 'middle', fill: '#9ca3af', 'font-size': 11 }, 'Stock price at expiration'));
+  svg.appendChild(el('text', { x: 14, y: M.t + IH / 2, 'text-anchor': 'middle', fill: '#9ca3af', 'font-size': 11, transform: 'rotate(-90 14 ' + (M.t + IH / 2) + ')' }, 'Profit / loss ($)'));
+
+  // profit / loss region fills (points already include exact zero crossings)
+  const zeroY = sy(0);
+  let run = [];
+  const flushRun = (sign) => {
+    if (run.length > 1) {
+      const d = 'M' + sx(run[0].x) + ',' + zeroY + ' ' + run.map(p => 'L' + sx(p.x) + ',' + sy(p.y)).join(' ') + ' L' + sx(run[run.length - 1].x) + ',' + zeroY + ' Z';
+      svg.appendChild(el('path', { d, fill: sign > 0 ? 'rgba(0,158,151,0.16)' : 'url(#lossTex)', stroke: 'none' }));
+    }
+  };
+  for (let sign of [1, -1]) {
+    run = [];
+    for (const p of pts) {
+      const inSide = sign > 0 ? p.y >= -1e-9 : p.y <= 1e-9;
+      if (inSide) run.push(p);
+      else { flushRun(sign); run = []; }
+    }
+    flushRun(sign);
+  }
+
+  // zero P/L baseline (emphasized)
+  svg.appendChild(el('line', { x1: M.l, x2: W - M.r, y1: zeroY, y2: zeroY, stroke: '#9ca3af', 'stroke-width': 1.4, opacity: 0.8 }));
+
+  // current price marker (gold, dashed) with direct label
+  if (S.spot >= xMin && S.spot <= xMax) {
+    svg.appendChild(el('line', { x1: sx(S.spot), x2: sx(S.spot), y1: M.t, y2: H - M.b, stroke: '#b8860b', 'stroke-width': 1.6, 'stroke-dasharray': '5 4' }));
+    const anchor = sx(S.spot) > M.l + IW - 130 ? 'end' : 'start';
+    const dx = anchor === 'end' ? -6 : 6;
+    svg.appendChild(el('text', { x: sx(S.spot) + dx, y: M.t + 12, 'text-anchor': anchor, fill: '#b8860b', 'font-size': 11, 'font-weight': 600 }, 'Current ' + fmtPrice(S.spot)));
+    const plNow = plPerShare(legs, S.spot) * mult;
+    svg.appendChild(el('circle', { cx: sx(S.spot), cy: sy(plNow), r: 5, fill: '#b8860b', stroke: '#1a1d27', 'stroke-width': 2 }));
+  }
+
+  // payoff line (2px, series color)
+  const lineD = 'M' + pts.map(p => sx(p.x) + ',' + sy(p.y)).join(' L');
+  svg.appendChild(el('path', { d: lineD, fill: 'none', stroke: '#6c63ff', 'stroke-width': 2.4, 'stroke-linejoin': 'round' }));
+
+  // breakeven markers + direct labels (text in text token, not series color)
+  for (const b of info.breakevens) {
+    if (b < xMin || b > xMax) continue;
+    svg.appendChild(el('circle', { cx: sx(b), cy: zeroY, r: 5, fill: '#e4e4e7', stroke: '#1a1d27', 'stroke-width': 2 }));
+    svg.appendChild(el('text', { x: sx(b), y: zeroY - 10, 'text-anchor': 'middle', fill: '#e4e4e7', 'font-size': 11, 'font-weight': 600 }, 'BE ' + fmtPrice(b)));
+  }
+
+  // unlimited annotations at right edge
+  const yRight = plPerShare(legs, xMax) * mult;
+  if (info.maxGain === Infinity) svg.appendChild(el('text', { x: W - M.r - 4, y: Math.max(M.t + 26, sy(yRight) - 8), 'text-anchor': 'end', fill: '#9ca3af', 'font-size': 11 }, 'gain unlimited →'));
+  if (info.maxLoss === -Infinity) svg.appendChild(el('text', { x: W - M.r - 4, y: Math.min(H - M.b - 8, sy(yRight) + 16), 'text-anchor': 'end', fill: '#9ca3af', 'font-size': 11 }, 'loss unlimited →'));
+
+  // hover crosshair (built once per render, driven by pointer events)
+  const cross = el('g', { id: 'crosshair', visibility: 'hidden' });
+  cross.appendChild(el('line', { id: 'ch-line', x1: 0, x2: 0, y1: M.t, y2: H - M.b, stroke: '#9ca3af', 'stroke-width': 1, 'stroke-dasharray': '3 3', opacity: 0.7 }));
+  cross.appendChild(el('circle', { id: 'ch-dot', r: 5, fill: '#6c63ff', stroke: '#1a1d27', 'stroke-width': 2 }));
+  svg.appendChild(cross);
+
+  updateHeader(st, legs, info);
+  updateTiles(st, legs, info, mult);
+  updateNotes(st);
+  updateTable(legs, info, mult, xMin, xMax);
+}
+
+/* ---------------- header, tiles, notes, table ---------------- */
+
+function updateHeader(st, legs, info) {
+  document.getElementById('chart-title').textContent = st.name + ': P/L at expiration';
+  const net = netOptionCash(legs);
+  const netTxt = net >= 0 ? 'Net credit ' + fmtMoney2(net) + ' per share' : 'Net debit ' + fmtMoney2(-net) + ' per share';
+  const legTxt = legs.map(l => {
+    if (l.kind === 'stock') return (l.dir > 0 ? 'Long' : 'Short') + ' 100 shares @ ' + fmtPrice(l.basis);
+    return (l.dir > 0 ? 'Buy' : 'Sell') + ' ' + l.kind + ' ' + fmtPrice(l.K) + ' @ ' + fmtMoney2(l.prem);
+  }).join('  |  ');
+  document.getElementById('chart-sub').textContent = legTxt + '  |  ' + netTxt + '  |  ' + S.qty + ' contract' + (S.qty > 1 ? 's' : '');
+}
+
+function updateTiles(st, legs, info, mult) {
+  const tiles = document.getElementById('tiles');
+  const plNow = plPerShare(legs, S.spot) * mult;
+  const gainTxt = info.maxGain === Infinity ? 'Unlimited' : fmtMoney(info.maxGain * mult);
+  const lossTxt = info.maxLoss === -Infinity ? 'Unlimited' : fmtMoney(Math.abs(info.maxLoss * mult));
+  const beTxt = info.breakevens.length ? info.breakevens.map(fmtPrice).join('  /  ') : 'None';
+  const net = netOptionCash(legs);
+  tiles.innerHTML =
+    tile('dot-gain', 'Max gain', gainTxt, info.maxGain === Infinity ? 'no ceiling' : 'at expiration') +
+    tile('dot-loss', 'Max loss', lossTxt, info.maxLoss === -Infinity ? 'uncapped risk' : 'at expiration') +
+    tile('dot-line', 'Breakeven' + (info.breakevens.length > 1 ? 's' : ''), beTxt, 'stock price at expiry') +
+    tile('dot-marker', 'P/L at current price', fmtMoney(plNow), 'if expiring at ' + fmtPrice(S.spot)) +
+    tile(net >= 0 ? 'dot-gain' : 'dot-loss', net >= 0 ? 'Net credit' : 'Net debit', fmtMoney(Math.abs(net) * mult), fmtMoney2(Math.abs(net)) + ' per share');
+}
+function tile(dot, label, val, sub) {
+  return '<div class="tile"><div class="t-label"><span class="dot ' + dot + '"></span>' + label + '</div><div class="t-val">' + val + '</div><div class="t-sub">' + sub + '</div></div>';
+}
+
+function updateNotes(st) {
+  document.getElementById('notes-title').textContent = 'Series 7 notes: ' + st.name;
+  document.getElementById('notes-sentiment').textContent = st.sentiment;
+  const g = document.getElementById('notes-grid');
+  g.innerHTML = '';
+  for (const key of ['be', 'gain', 'loss', 'margin']) {
+    const n = st.notes[key];
+    g.innerHTML += '<div class="note-block"><h4>' + n[0] + '</h4><p>' + n[1] + '</p>' + (n[2] ? '<span class="formula">' + n[2] + '</span>' : '') + '</div>';
+  }
+  document.getElementById('notes-hook').innerHTML = st.hook;
+}
+
+function updateTable(legs, info, mult, xMin, xMax) {
+  const t = document.getElementById('pl-table');
+  const rows = new Map();
+  const add = (x, label) => { const k = x.toFixed(2); if (!rows.has(k)) rows.set(k, { x, label }); else if (label) rows.get(k).label += ', ' + label; };
+  add(xMin, 'range low'); add(xMax, 'range high'); add(S.spot, 'current price');
+  info.kinks.forEach(k => add(k, 'strike'));
+  info.breakevens.forEach(b => add(b, 'breakeven'));
+  const sorted = [...rows.values()].sort((a, b) => a.x - b.x);
+  t.innerHTML = '<tr><th>Point</th><th>Stock price</th><th>P/L per share</th><th>P/L total</th></tr>' +
+    sorted.map(r => {
+      const ps = plPerShare(legs, r.x);
+      return '<tr><td>' + r.label + '</td><td>' + fmtPrice(r.x) + '</td><td>' + fmtMoney2(ps) + '</td><td>' + fmtMoney(ps * mult) + '</td></tr>';
+    }).join('');
+}
+
+function toggleTable() {
+  const t = document.getElementById('pl-table');
+  const btn = document.getElementById('table-toggle');
+  const show = t.style.display !== 'table';
+  t.style.display = show ? 'table' : 'none';
+  btn.textContent = show ? 'Hide table view' : 'Show table view';
+}
+
+/* ---------------- hover interaction ---------------- */
+
+(function attachHover() {
+  const svg = document.getElementById('chart');
+  const tip = document.getElementById('tooltip');
+  svg.addEventListener('pointermove', e => {
+    if (!scaleState) return;
+    const rect = svg.getBoundingClientRect();
+    const px = (e.clientX - rect.left) * (W / rect.width);
+    if (px < M.l || px > W - M.r) { hide(); return; }
+    const { xMin, xMax, sx, sy, legs, mult } = scaleState;
+    const x = xMin + (px - M.l) / IW * (xMax - xMin);
+    const ps = plPerShare(legs, x);
+    const y = ps * mult;
+    const cross = document.getElementById('crosshair');
+    cross.setAttribute('visibility', 'visible');
+    const line = document.getElementById('ch-line');
+    line.setAttribute('x1', sx(x)); line.setAttribute('x2', sx(x));
+    const dot = document.getElementById('ch-dot');
+    dot.setAttribute('cx', sx(x)); dot.setAttribute('cy', sy(y));
+    tip.style.display = 'block';
+    tip.innerHTML = '<span class="tt-price">Stock at expiry: ' + fmtPrice(x) + '</span><br>' +
+      '<span class="tt-pl" style="color:' + (y >= 0 ? 'var(--gain)' : 'var(--loss)') + '">' + fmtMoney(y) + ' total</span><br>' +
+      '<span class="tt-price">' + fmtMoney2(ps) + ' per share</span>';
+    const wrapRect = svg.parentElement.getBoundingClientRect();
+    let left = e.clientX - wrapRect.left + 14;
+    if (left + tip.offsetWidth > wrapRect.width - 8) left = e.clientX - wrapRect.left - tip.offsetWidth - 14;
+    tip.style.left = left + 'px';
+    tip.style.top = Math.max(0, e.clientY - wrapRect.top - tip.offsetHeight - 10) + 'px';
+  });
+  svg.addEventListener('pointerleave', hide);
+  function hide() {
+    document.getElementById('tooltip').style.display = 'none';
+    const c = document.getElementById('crosshair');
+    if (c) c.setAttribute('visibility', 'hidden');
+  }
+})();
+
+/* ---------------- init ---------------- */
+buildButtons();
+S.qty = 1; S.range = 40;
+selectStrategy('long_call');
+</script>
+</body>
+</html>
