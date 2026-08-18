@@ -1,0 +1,102 @@
+{
+  "topics": {
+    "settlement-and-reg-t": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-18",
+      "exam": "SIE/S7"
+    },
+    "options-breakevens": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-18",
+      "exam": "S7"
+    },
+    "margin-accounts": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-18",
+      "exam": "S7"
+    },
+    "accrued-interest": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-18",
+      "exam": "SIE/S7"
+    },
+    "s63-exemptions": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-18",
+      "exam": "S63"
+    }
+  },
+  "history": [
+    {
+      "date": "2026-08-18",
+      "messageId": "1a015215f29c5a4f",
+      "subject": "Finance drill - August 18, 2026",
+      "graded": false,
+      "note": "First run. No prior drill threads in Gmail, so no replies to grade. Baseline sweep across five areas not covered by the local index.html quiz.",
+      "questions": [
+        {
+          "topic": "settlement-and-reg-t",
+          "format": "multiple-choice",
+          "answer": "D (T+3)"
+        },
+        {
+          "topic": "options-breakevens",
+          "format": "calculation",
+          "answer": "Long straddle; BEs 56/44; max loss $600 at 50"
+        },
+        {
+          "topic": "margin-accounts",
+          "format": "calculation",
+          "answer": "$20,000 Reg T; maintenance call at $26.67/sh"
+        },
+        {
+          "topic": "accrued-interest",
+          "format": "multiple-choice-calculation",
+          "answer": "B ($7.00, 42 days 30/360)"
+        },
+        {
+          "topic": "s63-exemptions",
+          "format": "explain-one-sentence",
+          "answer": "Exempt security = what it is; exempt transaction = how/to whom sold"
+        }
+      ]
+    }
+  ],
+  "syllabusNotes": {
+    "source": "/Users/scottburstein/finance-learning/index.html",
+    "coveredByLocalQuiz": [
+      "FCF calculation",
+      "EV/EBITDA vs P/E",
+      "duration and rate sensitivity",
+      "LBO return drivers",
+      "enterprise value calculation",
+      "DCF terminal value weight",
+      "inverted yield curve",
+      "fiduciary vs suitability",
+      "comps-implied share price",
+      "LBO risk",
+      "municipal tax-equivalent yield",
+      "net income vs FCF gap"
+    ],
+    "flashcardTerms30": "EV, FCF, WACC, P/E, EV/EBITDA, yield curve, beta, fiduciary duty, blue sky laws, accredited investor, Reg D, duration, current yield vs YTM, calls vs puts, margin account, insider trading, NAV, suitability vs best interest, munis, MOIC, SEC registration, diversification, Sharpe, control premium, covenants, 63 registration exemptions, 63 administrator powers, working capital, IPO process, breakpoints",
+    "gapsToMineNext": [
+      "options spreads and multi-leg max gain/loss",
+      "covered calls and protective puts",
+      "short margin accounts and maintenance",
+      "mutual fund share classes A/B/C and breakpoint selling",
+      "retirement accounts: IRA, 401k, 529, Roth rules and RMDs",
+      "GO vs revenue bonds and muni analysis",
+      "Series 63 agent registration, de minimis, administrator enforcement",
+      "primary market: underwriting types, Rule 144, Reg A",
+      "options tax treatment and wash sales",
+      "customer account types: JTWROS, TIC, UGMA/UTMA, discretionary",
+      "communications with the public and FINRA advertising rules",
+      "packaged products: UITs, ETFs, closed-end vs open-end, variable annuities"
+    ]
+  }
+}
