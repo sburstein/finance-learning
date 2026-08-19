@@ -29,6 +29,36 @@
       "missed": 0,
       "lastAsked": "2026-08-18",
       "exam": "S63"
+    },
+    "options-spreads": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-19",
+      "exam": "S7"
+    },
+    "short-margin-accounts": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-19",
+      "exam": "S7"
+    },
+    "mutual-fund-sales-charges": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-19",
+      "exam": "SIE/S7"
+    },
+    "retirement-accounts-rmd": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-19",
+      "exam": "SIE/S7"
+    },
+    "muni-go-vs-revenue": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-19",
+      "exam": "S7"
     }
   },
   "history": [
@@ -65,6 +95,40 @@
           "answer": "Exempt security = what it is; exempt transaction = how/to whom sold"
         }
       ]
+    },
+    {
+      "date": "2026-08-19",
+      "messageId": "1a01a1308716cdc1",
+      "subject": "Finance drill - August 19, 2026",
+      "graded": false,
+      "note": "Checked the 2026-08-18 thread for a reply. None found, so no grading and all missed counts stay at 0. With no miss data and only five topics in the pool (all asked yesterday), the 2-high-miss / 2-stale / 1-new split was not achievable. Substituted: 2 harder re-runs of yesterday's calculation topics (straddle to spread, long margin to short margin) and 3 pulled from gapsToMineNext. Verified two rules by web search before writing: Reg T payment deadline of T+3 in yesterday's A1 is correct under the T+1 settlement cycle effective 2024-05-28 (no correction owed), and SECURE 2.0 eliminated lifetime RMDs on designated Roth 401(k) accounts starting 2024 with the RMD age at 73.",
+      "questions": [
+        {
+          "topic": "options-spreads",
+          "format": "calculation",
+          "answer": "Bull call spread; max gain $700; max loss $300; BE 43"
+        },
+        {
+          "topic": "short-margin-accounts",
+          "format": "calculation",
+          "answer": "Reg T $15,000, CR $45,000; trigger $69.23/sh; call $1,800 at $72"
+        },
+        {
+          "topic": "mutual-fund-sales-charges",
+          "format": "multiple-choice-plus-term",
+          "answer": "B (7.00% of POP); violation is breakpoint selling"
+        },
+        {
+          "topic": "retirement-accounts-rmd",
+          "format": "multiple-choice",
+          "answer": "C (traditional IRA); Roth 401k RMDs gone since 2024"
+        },
+        {
+          "topic": "muni-go-vs-revenue",
+          "format": "explain-one-sentence",
+          "answer": "GO = taxing power, look at tax base/debt per capita; revenue = project income, look at feasibility study/debt service coverage"
+        }
+      ]
     }
   ],
   "syllabusNotes": {
@@ -85,18 +149,18 @@
     ],
     "flashcardTerms30": "EV, FCF, WACC, P/E, EV/EBITDA, yield curve, beta, fiduciary duty, blue sky laws, accredited investor, Reg D, duration, current yield vs YTM, calls vs puts, margin account, insider trading, NAV, suitability vs best interest, munis, MOIC, SEC registration, diversification, Sharpe, control premium, covenants, 63 registration exemptions, 63 administrator powers, working capital, IPO process, breakpoints",
     "gapsToMineNext": [
-      "options spreads and multi-leg max gain/loss",
       "covered calls and protective puts",
-      "short margin accounts and maintenance",
-      "mutual fund share classes A/B/C and breakpoint selling",
-      "retirement accounts: IRA, 401k, 529, Roth rules and RMDs",
-      "GO vs revenue bonds and muni analysis",
+      "combined long and short margin accounts, SMA and buying power",
+      "mutual fund share classes A/B/C, LOI and rights of accumulation math",
+      "IRA and 401k contribution limits, early withdrawal exceptions, 529 rules",
+      "muni analysis detail: flow of funds, overlapping debt, revenue bond covenants",
       "Series 63 agent registration, de minimis, administrator enforcement",
       "primary market: underwriting types, Rule 144, Reg A",
       "options tax treatment and wash sales",
       "customer account types: JTWROS, TIC, UGMA/UTMA, discretionary",
       "communications with the public and FINRA advertising rules",
-      "packaged products: UITs, ETFs, closed-end vs open-end, variable annuities"
+      "packaged products: UITs, ETFs, closed-end vs open-end, variable annuities",
+      "Series 7 suitability and best interest under Reg BI"
     ]
   }
 }
