@@ -19,9 +19,9 @@
       "exam": "S7"
     },
     "accrued-interest": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-18",
+      "lastAsked": "2026-08-21",
       "exam": "SIE/S7"
     },
     "s63-exemptions": {
@@ -59,6 +59,30 @@
       "missed": 0,
       "lastAsked": "2026-08-19",
       "exam": "S7"
+    },
+    "covered-calls": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-21",
+      "exam": "S7"
+    },
+    "custodial-accounts-ugma-utma": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-21",
+      "exam": "SIE/S7"
+    },
+    "rule-144-control-stock": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-21",
+      "exam": "SIE/S7"
+    },
+    "s63-de-minimis-vs-agent-registration": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-21",
+      "exam": "S63"
     }
   },
   "history": [
@@ -129,6 +153,40 @@
           "answer": "GO = taxing power, look at tax base/debt per capita; revenue = project income, look at feasibility study/debt service coverage"
         }
       ]
+    },
+    {
+      "date": "2026-08-21",
+      "messageId": "1a0243c7a2344079",
+      "subject": "Finance drill - August 21, 2026",
+      "graded": false,
+      "note": "Checked both prior drill threads (8/18 id 1a015215f29c5a4f, 8/19 id 1a01a1308716cdc1) in Gmail. Neither has a reply, so no grading and all missed counts remain 0. No drill ran on 8/20. With zero miss data the 2-high-miss split is still not achievable; substituted 2 harder re-runs of previously drilled areas (accrued interest moved from 30/360 corporate to actual/actual Treasury; Series 63 moved from exempt security vs exempt transaction to de minimis vs agent registration) plus 3 new topics from gapsToMineNext. Verified by web search before writing: Rule 144(e) volume cap is the greater of 1% outstanding or average weekly volume over the four calendar weeks preceding the Form 144 filing, and the USA de minimis threshold is five or fewer resident clients with no place of business, applicable to IAs and IARs but not to BDs or agents.",
+      "questions": [
+        {
+          "topic": "covered-calls",
+          "format": "calculation",
+          "answer": "BE $45; max gain $500; max loss $4,500"
+        },
+        {
+          "topic": "accrued-interest",
+          "format": "calculation",
+          "answer": "$28.26 (T-note actual/actual, 26/184 days, T+1 settle 6/10); corporate 30/360 would be $27.78"
+        },
+        {
+          "topic": "custodial-accounts-ugma-utma",
+          "format": "multiple-choice",
+          "answer": "C (minor's SSN, gifts irrevocable)"
+        },
+        {
+          "topic": "rule-144-control-stock",
+          "format": "calculation-multiple-choice",
+          "answer": "B (26,000 = 4-week average, beats 1% of 24,000)"
+        },
+        {
+          "topic": "s63-de-minimis-vs-agent-registration",
+          "format": "explain-one-sentence",
+          "answer": "No place of business + 5 or fewer resident clients in 12 months; agents excluded because any transaction with a person in the state triggers registration"
+        }
+      ]
     }
   ],
   "syllabusNotes": {
@@ -149,18 +207,18 @@
     ],
     "flashcardTerms30": "EV, FCF, WACC, P/E, EV/EBITDA, yield curve, beta, fiduciary duty, blue sky laws, accredited investor, Reg D, duration, current yield vs YTM, calls vs puts, margin account, insider trading, NAV, suitability vs best interest, munis, MOIC, SEC registration, diversification, Sharpe, control premium, covenants, 63 registration exemptions, 63 administrator powers, working capital, IPO process, breakpoints",
     "gapsToMineNext": [
-      "covered calls and protective puts",
       "combined long and short margin accounts, SMA and buying power",
       "mutual fund share classes A/B/C, LOI and rights of accumulation math",
       "IRA and 401k contribution limits, early withdrawal exceptions, 529 rules",
       "muni analysis detail: flow of funds, overlapping debt, revenue bond covenants",
       "Series 63 agent registration, de minimis, administrator enforcement",
-      "primary market: underwriting types, Rule 144, Reg A",
       "options tax treatment and wash sales",
-      "customer account types: JTWROS, TIC, UGMA/UTMA, discretionary",
       "communications with the public and FINRA advertising rules",
       "packaged products: UITs, ETFs, closed-end vs open-end, variable annuities",
-      "Series 7 suitability and best interest under Reg BI"
+      "Series 7 suitability and best interest under Reg BI",
+      "protective puts and collars (covered calls done 8/21)",
+      "primary market: underwriting commitment types, Reg A tiers (Rule 144 done 8/21)",
+      "JTWROS vs TIC vs discretionary accounts (UGMA/UTMA done 8/21)"
     ]
   }
 }
