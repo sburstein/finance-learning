@@ -83,6 +83,36 @@
       "missed": 0,
       "lastAsked": "2026-08-21",
       "exam": "S63"
+    },
+    "sma-and-buying-power": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-24",
+      "exam": "S7"
+    },
+    "mutual-fund-loi-breakpoints": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-24",
+      "exam": "SIE/S7"
+    },
+    "protective-puts-collars": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-24",
+      "exam": "S7"
+    },
+    "packaged-products-uit-cef-openend": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-24",
+      "exam": "SIE/S7"
+    },
+    "reg-bi-best-interest": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-24",
+      "exam": "SIE/S7/S63"
     }
   },
   "history": [
@@ -187,6 +217,40 @@
           "answer": "No place of business + 5 or fewer resident clients in 12 months; agents excluded because any transaction with a person in the state triggers registration"
         }
       ]
+    },
+    {
+      "date": "2026-08-24",
+      "messageId": "1a033bd913472059",
+      "subject": "Finance drill - August 24, 2026",
+      "graded": false,
+      "note": "Checked all three prior drill threads in Gmail (8/18 1a015215f29c5a4f, 8/19 1a01a1308716cdc1, 8/21 1a0243c7a2344079). Each is a single sent message with no reply, so no grading and all missed counts remain 0. No drill on 8/22 or 8/23 (weekend). With zero miss data the 2-high-miss split is still not achievable; substituted 2 harder re-runs of previously drilled areas (long margin moved up to SMA, buying power and the high-water-mark withdrawal test; mutual fund sales charges moved up to LOI backdating and breakpoint math) plus 3 new topics from gapsToMineNext. Verified by web search before writing: SMA rises by 50 percent of an LMV increase and does not fall with the market, buying power is 2x SMA, and SMA may only be withdrawn if equity stays above 25 percent maintenance; LOI is 13 months and may be backdated up to 90 days with the 13-month clock running from the backdated date (exam convention, FINRA itself defers to the prospectus); Reg BI's four component obligations are Disclosure, Care, Conflict of Interest and Compliance, effective 2020-06-30, with the Conflict and Compliance obligations applying at the firm level only. First Gmail send attempt returned service unavailable twice; third attempt succeeded, so verify no duplicate exists if a second copy appears.",
+      "questions": [
+        {
+          "topic": "sma-and-buying-power",
+          "format": "calculation",
+          "answer": "SMA $5,000; buying power $10,000; SMA stays $5,000 after the drop and the withdrawal is allowed (equity $10,000 vs $7,500 maintenance)"
+        },
+        {
+          "topic": "mutual-fund-loi-breakpoints",
+          "format": "multiple-choice-plus-short-answer",
+          "answer": "B (backdate up to 90 days, 13 months from the backdated date); $32,000 more needed; shortfall covered from up to 5% escrowed shares"
+        },
+        {
+          "topic": "protective-puts-collars",
+          "format": "calculation",
+          "answer": "Collar; BE $48.50; max gain $650; max loss $350"
+        },
+        {
+          "topic": "packaged-products-uit-cef-openend",
+          "format": "multiple-choice",
+          "answer": "C (closed-end: fixed share count, secondary market price above or below NAV)"
+        },
+        {
+          "topic": "reg-bi-best-interest",
+          "format": "explain-one-sentence",
+          "answer": "Disclosure, Care, Conflict of Interest, Compliance; Reg BI bars putting firm interest ahead of the retail customer, suitability only required a profile fit"
+        }
+      ]
     }
   ],
   "syllabusNotes": {
@@ -207,18 +271,18 @@
     ],
     "flashcardTerms30": "EV, FCF, WACC, P/E, EV/EBITDA, yield curve, beta, fiduciary duty, blue sky laws, accredited investor, Reg D, duration, current yield vs YTM, calls vs puts, margin account, insider trading, NAV, suitability vs best interest, munis, MOIC, SEC registration, diversification, Sharpe, control premium, covenants, 63 registration exemptions, 63 administrator powers, working capital, IPO process, breakpoints",
     "gapsToMineNext": [
-      "combined long and short margin accounts, SMA and buying power",
-      "mutual fund share classes A/B/C, LOI and rights of accumulation math",
       "IRA and 401k contribution limits, early withdrawal exceptions, 529 rules",
       "muni analysis detail: flow of funds, overlapping debt, revenue bond covenants",
       "Series 63 agent registration, de minimis, administrator enforcement",
       "options tax treatment and wash sales",
       "communications with the public and FINRA advertising rules",
-      "packaged products: UITs, ETFs, closed-end vs open-end, variable annuities",
-      "Series 7 suitability and best interest under Reg BI",
-      "protective puts and collars (covered calls done 8/21)",
       "primary market: underwriting commitment types, Reg A tiers (Rule 144 done 8/21)",
-      "JTWROS vs TIC vs discretionary accounts (UGMA/UTMA done 8/21)"
+      "JTWROS vs TIC vs discretionary accounts (UGMA/UTMA done 8/21)",
+      "options tax treatment and wash sales (still open)",
+      "variable annuities and 1035 exchanges (split out from packaged products, done 8/24)",
+      "mutual fund share class breakeven math A vs C over a holding period (LOI/ROA done 8/24)",
+      "margin: combined long and short account, SMA in a short account (long-account SMA done 8/24)",
+      "FINRA Code of Procedure vs Code of Arbitration"
     ]
   }
 }
