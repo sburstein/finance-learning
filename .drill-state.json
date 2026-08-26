@@ -1,15 +1,15 @@
 {
   "topics": {
     "settlement-and-reg-t": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-18",
+      "lastAsked": "2026-08-26",
       "exam": "SIE/S7"
     },
     "options-breakevens": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-18",
+      "lastAsked": "2026-08-26",
       "exam": "S7"
     },
     "margin-accounts": {
@@ -113,6 +113,24 @@
       "missed": 0,
       "lastAsked": "2026-08-24",
       "exam": "SIE/S7/S63"
+    },
+    "options-tax-wash-sales": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-26",
+      "exam": "SIE/S7"
+    },
+    "variable-annuities-1035": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-26",
+      "exam": "SIE/S7"
+    },
+    "finra-code-of-procedure-vs-arbitration": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-26",
+      "exam": "SIE/S7"
     }
   },
   "history": [
@@ -251,6 +269,40 @@
           "answer": "Disclosure, Care, Conflict of Interest, Compliance; Reg BI bars putting firm interest ahead of the retail customer, suitability only required a profile fit"
         }
       ]
+    },
+    {
+      "date": "2026-08-26",
+      "messageId": "1a03e272837e797a",
+      "subject": "Finance drill - August 26, 2026",
+      "graded": false,
+      "note": "Checked the last three drill threads in Gmail (8/21 1a0243c7a2344079, and the two 8/24 copies 1a033bd6cbabb2f3 and 1a033bd913472059). No replies on any of them, so no grading and all missed counts remain 0. Confirmed the 8/24 duplicate the prior run warned about: the drill did send twice, nine seconds apart, identical content. Flagged it in today's email. No drill ran 8/25. With zero miss data the 2-high-miss split is still not achievable; substituted 2 escalated re-runs of the stalest topics, both last asked 8/18 (settlement moved from the plain T+3 rule up to the unpaid-balance consequence chain; options breakevens moved from a long straddle up to a short straddle with a closing P/L leg) plus 3 new topics from gapsToMineNext. Verified by web search before writing: Reg T payment period is two business days beyond standard settlement (T+3 under T+1 settlement), the de minimis unpaid amount is $1,000 measured in aggregate rather than per trade, extensions come from the firm's DEA via REX and not the SEC, and the freeze is 90 days; a purchased call counts as a substantially identical security under Section 1091 so it triggers a wash sale, with the disallowed loss added to the replacement basis (and forfeited outright, per Rev. Rul. 2008-5, if the replacement sits in an IRA); 1035 runs one way only, life into annuity but never annuity into life, basis carries over while the surrender-charge clock does not; FINRA simplified arbitration is $50,000 or less with one arbitrator on the papers, one arbitrator through $100,000 absent written agreement for three, three above that, and the eligibility rule is six years. Single send, no duplicate this run.",
+      "questions": [
+        {
+          "topic": "options-tax-wash-sales",
+          "format": "calculation",
+          "answer": "$0 deductible this year; call basis $6,000 ($1,200 cost + $4,800 disallowed loss)"
+        },
+        {
+          "topic": "settlement-and-reg-t",
+          "format": "multiple-choice",
+          "answer": "C (extension from the DEA, or sell out and freeze 90 days; payment due T+3, de minimis $1,000)"
+        },
+        {
+          "topic": "options-breakevens",
+          "format": "calculation",
+          "answer": "Short straddle; BEs 78/62; max gain $800; max loss unlimited; $300 loss at $59"
+        },
+        {
+          "topic": "variable-annuities-1035",
+          "format": "multiple-choice",
+          "answer": "B (basis carries over at $80,000, new surrender schedule starts)"
+        },
+        {
+          "topic": "finra-code-of-procedure-vs-arbitration",
+          "format": "explain-one-sentence",
+          "answer": "COP = discipline, 8000/9000, appealable to NAC then SEC; COA = monetary disputes, binding, no appeal; simplified $50,000 or less, one arbitrator; 6-year eligibility"
+        }
+      ]
     }
   ],
   "syllabusNotes": {
@@ -274,15 +326,14 @@
       "IRA and 401k contribution limits, early withdrawal exceptions, 529 rules",
       "muni analysis detail: flow of funds, overlapping debt, revenue bond covenants",
       "Series 63 agent registration, de minimis, administrator enforcement",
-      "options tax treatment and wash sales",
       "communications with the public and FINRA advertising rules",
       "primary market: underwriting commitment types, Reg A tiers (Rule 144 done 8/21)",
       "JTWROS vs TIC vs discretionary accounts (UGMA/UTMA done 8/21)",
-      "options tax treatment and wash sales (still open)",
-      "variable annuities and 1035 exchanges (split out from packaged products, done 8/24)",
       "mutual fund share class breakeven math A vs C over a holding period (LOI/ROA done 8/24)",
       "margin: combined long and short account, SMA in a short account (long-account SMA done 8/24)",
-      "FINRA Code of Procedure vs Code of Arbitration"
+      "options tax treatment: LEAPS, straddle loss deferral, exercise/assignment basis (wash sales done 8/26)",
+      "annuity payout options and the accumulation/annuity unit distinction (1035 done 8/26)",
+      "arbitration mechanics: predispute agreement disclosure rules, mediation (COP vs COA done 8/26)"
     ]
   }
 }
