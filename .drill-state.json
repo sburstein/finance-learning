@@ -161,6 +161,36 @@
       "missed": 0,
       "lastAsked": "2026-08-27",
       "exam": "SIE/S7/S63"
+    },
+    "retirement-plan-limits-and-early-withdrawal-exceptions": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-28",
+      "exam": "SIE/S7"
+    },
+    "usa-administrator-enforcement-powers": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-28",
+      "exam": "S63"
+    },
+    "finra-2210-communications": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-28",
+      "exam": "SIE/S7"
+    },
+    "mutual-fund-share-class-breakeven": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-28",
+      "exam": "SIE/S7"
+    },
+    "annuity-taxation-lifo-exclusion-ratio": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-08-28",
+      "exam": "SIE/S7"
     }
   },
   "history": [
@@ -367,6 +397,40 @@
           "answer": "JTWROS passes to survivors outside probate, TIC passes to the estate; three A's (Asset, Action, Amount) trigger Rule 3260 written authorization, time and price excepted and expires end of that business day"
         }
       ]
+    },
+    {
+      "date": "2026-08-28",
+      "messageId": "1a0487e8c182e056",
+      "subject": "Finance drill - August 28, 2026",
+      "graded": false,
+      "note": "Searched Gmail for all drill threads (subject:\"Finance drill\" newer_than:14d). Seven threads returned, each a single sent message with zero replies, so no grading and all missed counts remain 0. With no miss data the 2-high-miss split is still not achievable; substituted 2 escalations of the stalest topics (retirement accounts, last asked 8/19 at the RMD level, moved up to 2026 contribution limits and the IRA-only vs plan-only 72(t) exceptions; Series 63, last asked 8/18 on exempt security vs exempt transaction, moved up to administrator enforcement powers and the 5-5-3 rule) plus 3 new topics from gapsToMineNext. Verified by web search before writing: 2026 IRS limits per Notice 2025-67 (402(g) $24,500, age 50 catch-up $8,000, ages 60-63 enhanced catch-up $11,250 which replaces rather than stacks on the standard catch-up and is an optional plan feature, IRA $7,500 plus a newly indexed $1,100 catch-up, mandatory Roth catch-up starting 2026 above $150,000 prior-year FICA wages); first-time homebuyer ($10,000 lifetime, 120-day use window) and higher education 72(t) exceptions apply to IRAs only while the rule of 55 applies to employer plans only, and rolling a plan to an IRA forfeits the rule of 55; USA administrator issues cease and desist without prior hearing but must petition a court for an injunction, has no arrest power, 5-5-3 criminal penalties (5-year SOL, $5,000 fine, 3 years prison) versus $10,000 and 5 years under the Advisers Act, civil suit 2 years from discovery or 3 years from sale whichever comes first, civil liability survives death; Rule 2210 correspondence is 25 or fewer retail investors in any 30 calendar-day period with more than 25 making it a retail communication, retail communications need registered principal approval before the earlier of use or filing, fund-specific retail pieces file within 10 business days of first use, and first-year members must pre-file at least 10 business days before first use, with institutional investor status keyed to entity type or total assets of at least $50 million. Single send, no duplicate this run.",
+      "questions": [
+        {
+          "topic": "retirement-plan-limits-and-early-withdrawal-exceptions",
+          "format": "multiple-choice-plus-short-answer",
+          "answer": "D ($35,750 = $24,500 + $11,250 enhanced catch-up); only the IRA education distribution avoids the penalty, neither is free of income tax, 401(k) home withdrawal costs $1,800"
+        },
+        {
+          "topic": "usa-administrator-enforcement-powers",
+          "format": "multiple-choice-plus-recall",
+          "answer": "B (cease and desist without prior hearing; injunction requires a court); 5-5-3 plus civil 2 years from discovery or 3 years from sale, whichever comes first"
+        },
+        {
+          "topic": "finra-2210-communications",
+          "format": "multiple-choice-plus-short-answer",
+          "answer": "B (retail communication, principal approval before earlier of use or filing, file within 10 business days of first use); first-year member must pre-file 10 business days before first use"
+        },
+        {
+          "topic": "mutual-fund-share-class-breakeven",
+          "format": "calculation",
+          "answer": "Breakeven 6 years (4.50 / 0.75); Class A cheaper by ~$1,500 over 10 years; Class C at 18 months with no CDSC since the 1% applies only within 12 months"
+        },
+        {
+          "topic": "annuity-taxation-lifo-exclusion-ratio",
+          "format": "explain-one-sentence-plus-calculation",
+          "answer": "LIFO on withdrawals vs exclusion ratio on annuitization; $50,000 fully taxable plus $5,000 penalty at 55; exclusion ratio 50% so $500 per check excluded, fully taxable after 20 years once basis is recovered"
+        }
+      ]
     }
   ],
   "syllabusNotes": {
@@ -387,16 +451,16 @@
     ],
     "flashcardTerms30": "EV, FCF, WACC, P/E, EV/EBITDA, yield curve, beta, fiduciary duty, blue sky laws, accredited investor, Reg D, duration, current yield vs YTM, calls vs puts, margin account, insider trading, NAV, suitability vs best interest, munis, MOIC, SEC registration, diversification, Sharpe, control premium, covenants, 63 registration exemptions, 63 administrator powers, working capital, IPO process, breakpoints",
     "gapsToMineNext": [
-      "IRA and 401k contribution limits, early withdrawal exceptions, 529 rules",
+      "529 rules and Coverdell (contribution limits and 72(t) exceptions done 8/28)",
       "muni analysis detail: overlapping debt, debt per capita, MSRB rules G-37 and G-38 (flow of funds and DSCR done 8/27)",
-      "Series 63 agent registration, de minimis, administrator enforcement",
-      "communications with the public and FINRA advertising rules",
+      "Series 63 state registration mechanics: consent to service of process, financial requirements, withdrawal (de minimis done 8/21, enforcement powers done 8/28)",
+      "communications with the public: testimonials, projections of performance, social media and recordkeeping (Rule 2210 categories and filing done 8/28)",
       "primary market: shelf registration, Reg D private placements, IPO cooling off and prospectus delivery (Rule 144 done 8/21, commitments and Reg A done 8/27)",
       "account types: TOD, numbered accounts, prime brokerage, death of a customer procedures (UGMA/UTMA done 8/21, JTWROS/TIC/discretion done 8/27)",
-      "mutual fund share class breakeven math A vs C over a holding period (LOI/ROA done 8/24)",
+      "mutual fund forward pricing, redemption timing and 12b-1 fee limits (A vs C breakeven done 8/28, LOI/ROA done 8/24)",
       "margin: pattern day trader rules, options and bond margin requirements (long-account SMA done 8/24, combined account done 8/27)",
       "options tax treatment: LEAPS, straddle loss deferral, exercise/assignment basis (wash sales done 8/26)",
-      "annuity taxation: LIFO on withdrawals, exclusion ratio, 10 percent penalty (1035 done 8/26, payout units done 8/27)",
+      "variable annuity separate account regulation, AIR and suitability (1035 done 8/26, payout units done 8/27, LIFO and exclusion ratio done 8/28)",
       "arbitration mechanics: predispute agreement disclosure rules, mediation (COP vs COA done 8/26)"
     ]
   }
