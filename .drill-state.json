@@ -13,9 +13,9 @@
       "exam": "S7"
     },
     "margin-accounts": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-18",
+      "lastAsked": "2026-09-04",
       "exam": "S7"
     },
     "accrued-interest": {
@@ -25,15 +25,15 @@
       "exam": "SIE/S7"
     },
     "s63-exemptions": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-18",
+      "lastAsked": "2026-09-04",
       "exam": "S63"
     },
     "options-spreads": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-19",
+      "lastAsked": "2026-09-04",
       "exam": "S7"
     },
     "short-margin-accounts": {
@@ -55,9 +55,9 @@
       "exam": "SIE/S7"
     },
     "muni-go-vs-revenue": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-19",
+      "lastAsked": "2026-09-04",
       "exam": "S7"
     },
     "covered-calls": {
@@ -221,6 +221,42 @@
       "missed": 0,
       "lastAsked": "2026-09-01",
       "exam": "S63"
+    },
+    "options-spread-margin-and-assignment": {
+      "asked": 1,
+      "missed": 0,
+      "exam": "S7",
+      "lastAsked": "2026-09-03"
+    },
+    "accrued-interest-muni-30-360": {
+      "asked": 1,
+      "missed": 0,
+      "exam": "SIE/S7",
+      "lastAsked": "2026-09-03"
+    },
+    "reg-d-506b-vs-506c": {
+      "asked": 1,
+      "missed": 0,
+      "exam": "SIE/S7",
+      "lastAsked": "2026-09-03"
+    },
+    "tod-and-death-of-customer": {
+      "asked": 1,
+      "missed": 0,
+      "exam": "SIE/S7",
+      "lastAsked": "2026-09-03"
+    },
+    "s63-offer-sale-unlawful-representations": {
+      "asked": 1,
+      "missed": 0,
+      "exam": "S63",
+      "lastAsked": "2026-09-03"
+    },
+    "convertible-bonds-parity": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-09-04",
+      "exam": "SIE/S7"
     }
   },
   "history": [
@@ -495,6 +531,63 @@
           "answer": "Consent appoints the Administrator attorney-in-fact, filed once and permanent; registration effective noon of the 30th day, withdrawal effective 30 days after receipt; 1-year continuing jurisdiction; no bond from an agent lacking custody or discretion"
         }
       ]
+    },
+    {
+      "date": "2026-09-03",
+      "messageId": "1a069700f204c67f",
+      "subject": "Finance drill - September 3, 2026",
+      "graded": false,
+      "note": "Searched Gmail for all drill threads (subject:\"Finance drill\" newer_than:14d). Seven threads returned covering ten sent drills (8/18, 8/19, 8/21, the two 8/24 copies, 8/26, 8/27, 8/28, 9/1), each a single sent message with zero replies, so no grading and all missed counts remain 0. No drill ran Wednesday 9/2. With no miss data the 2-high-miss split is still not achievable; substituted 2 escalations of the stalest topics (options-spreads, last asked 8/19 at plain max gain/loss, moved up to the margin deposit rule and early assignment handling; accrued-interest, last asked 8/21 on Treasury actual/actual, moved to muni 30/360 with the trades-flat categories) plus 3 new topics from gapsToMineNext. Verified by web search before writing: strategy-based margin treats a debit spread as net debit paid in full and a credit spread as strike differential less net credit deposited and held, which equals max loss in both cases (brokers may cap the credit-spread requirement at the uncovered short requirement, and retirement accounts add a $2,000 cash spread reserve, both beyond exam scope); the SEC Division of Corporation Finance no-action letter dated 2025-03-12 deems verification satisfied under 506(c) at a $200,000 minimum investment for a natural person or $1,000,000 for an entity, conditioned on a written representation of the specific Rule 501(a) category relied on, a representation that the investment is not third-party financed for the purpose of participating, and no actual knowledge to the contrary, with binding commitments counting and the letter being interpretive rather than a new formal safe harbor; accredited investor dollar thresholds are UNCHANGED as of Sept 2026 ($200k/$300k income two years, $1M net worth excluding primary residence) and the credential path remains only Series 7, 65 and 82, with the INVEST Act (H.R. 3383) to index them passed by the House in Dec 2025 and still in the Senate; separately the qualified client thresholds under Advisers Act Rule 205-3 DID rise on 2026-04-28 to $1.4M AUM or $2.7M net worth effective 2026-06-29 for new advisory relationships, which is a different test and a likely distractor; death of a customer means cancel all open orders including GTC, mark the account deceased, freeze activity pending documents, with trading after death charged under FINRA Rule 2010 even absent knowledge, and a TOD designation controls over the will and avoids probate; USA treats a gift of assessable stock as offer plus sale because the recipient assumes assessment liability while a stock dividend is excluded, every warrant, right or convertible offer includes an offer of the underlying, bonus securities are conclusively presumed part of the purchase, and Section 405 bars representing that registration, notice filing or an exemption means the Administrator approved or verified anything. Single send, no duplicate this run.",
+      "questions": [
+        {
+          "topic": "options-spread-margin-and-assignment",
+          "format": "calculation",
+          "answer": "Bullish credit put spread; max gain $300; max loss $700; BE 67; deposit $700 (debit spread would be net debit paid in full); $300 loss at 64"
+        },
+        {
+          "topic": "accrued-interest-muni-30-360",
+          "format": "calculation",
+          "answer": "63 days, $87.50; flat = defaulted bonds, income/adjustment bonds, zeros (and settlement on the coupon date); T-note would be actual/actual at 65 days"
+        },
+        {
+          "topic": "reg-d-506b-vs-506c",
+          "format": "multiple-choice-plus-short-answer",
+          "answer": "B (506(c) permits general solicitation, all purchasers accredited and verified); $200k natural person minimum-investment path with the three representations; $200k/$300k income or $1M net worth ex-residence, Series 7/65/82; Form D within 15 days of first sale, states limited to notice filing and fee"
+        },
+        {
+          "topic": "tod-and-death-of-customer",
+          "format": "multiple-choice",
+          "answer": "C (cancel all open orders including GTC, mark deceased, freeze; TOD controls over the will and avoids probate)"
+        },
+        {
+          "topic": "s63-offer-sale-unlawful-representations",
+          "format": "explain-one-sentence",
+          "answer": "Assessable stock imposes assessment liability so value is given; stock dividend excluded; Section 405 unlawful representations, registration is never approval or a finding that filings are true and complete"
+        }
+      ]
+    },
+    {
+      "date": "2026-09-04",
+      "gmailThreadId": "1a06caa14c4e9c4b",
+      "topics": [
+        "margin-accounts",
+        "s63-exemptions",
+        "options-spreads",
+        "muni-go-vs-revenue",
+        "convertible-bonds-parity"
+      ],
+      "formats": [
+        "calculation",
+        "multiple-choice",
+        "calculation",
+        "explain-one-sentence",
+        "calculation"
+      ],
+      "newTopics": [
+        "convertible-bonds-parity"
+      ],
+      "graded": false,
+      "note": "No reply found on any of the 11 prior drill threads, so no miss data. Selection driven by spacing: margin-accounts and s63-exemptions last asked 2026-08-18, options-spreads and muni-go-vs-revenue last asked 2026-08-19; convertible-bonds-parity is new material."
     }
   ],
   "syllabusNotes": {
@@ -517,15 +610,16 @@
     "gapsToMineNext": [
       "education savings follow-ups: 529 state tax conformity to OBBBA, ABLE accounts, UGMA-to-529 conversions (529 vs Coverdell done 9/1, contribution limits and 72(t) done 8/28)",
       "muni analysis detail: overlapping debt, debt per capita, MSRB rules G-37 and G-38 (flow of funds and DSCR done 8/27)",
-      "Series 63 remaining: definition of sale and offer, unlawful representations, IA vs IAR vs federal covered division of authority (de minimis done 8/21, enforcement powers done 8/28, registration mechanics done 9/1)",
+      "Series 63 remaining: IA vs IAR vs federal covered division of authority, custody and discretion rules, fraudulent practices in advisory contracts (de minimis done 8/21, enforcement powers done 8/28, registration mechanics done 9/1, offer/sale and unlawful representations done 9/3)",
       "communications with the public: testimonials, projections of performance, social media and recordkeeping (Rule 2210 categories and filing done 8/28)",
-      "primary market remaining: shelf registration Rule 415 and WKSI, Reg D 506(b) vs 506(c) and accredited investor tests (Rule 144 done 8/21, commitments and Reg A done 8/27, cooling off and prospectus delivery done 9/1)",
-      "account types: TOD, numbered accounts, prime brokerage, death of a customer procedures (UGMA/UTMA done 8/21, JTWROS/TIC/discretion done 8/27)",
+      "primary market remaining: shelf registration Rule 415 and WKSI, Rule 147 intrastate and Rule 504 (Rule 144 done 8/21, commitments and Reg A done 8/27, cooling off and prospectus delivery done 9/1, 506(b) vs 506(c) and accredited investor tests done 9/3)",
+      "account types: numbered accounts, prime brokerage, corporate and partnership account documents (UGMA/UTMA done 8/21, JTWROS/TIC/discretion done 8/27, TOD and death of a customer done 9/3)",
       "mutual fund forward pricing, redemption timing and 12b-1 fee limits (A vs C breakeven done 8/28, LOI/ROA done 8/24)",
-      "margin remaining: options margin requirements and exempt/bond margin (long-account SMA done 8/24, combined account done 8/27, PDT-to-intraday-margin rewrite done 9/1)",
+      "margin remaining: exempt and bond margin, cash account rules including Reg T free-riding (long-account SMA done 8/24, combined account done 8/27, PDT-to-intraday-margin rewrite done 9/1, options spread margin done 9/3)",
       "options tax remaining: straddle loss deferral, qualified covered calls and protective put holding-period suspension (wash sales done 8/26, exercise/assignment basis and LEAPS done 9/1)",
       "variable annuity separate account regulation, AIR and suitability (1035 done 8/26, payout units done 8/27, LIFO and exclusion ratio done 8/28)",
-      "arbitration mechanics: predispute agreement disclosure rules, mediation (COP vs COA done 8/26)"
+      "arbitration mechanics: predispute agreement disclosure rules, mediation (COP vs COA done 8/26)",
+      "bond pricing mechanics: dollar price to yield, premium/discount amortization and accretion, callable bond yield to worst (accrued interest 30/360 and actual/actual done 9/3 and 8/21)"
     ],
     "ruleChangeWatch": [
       {
