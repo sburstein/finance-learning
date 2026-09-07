@@ -37,15 +37,15 @@
       "exam": "S7"
     },
     "short-margin-accounts": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-19",
+      "lastAsked": "2026-09-07",
       "exam": "S7"
     },
     "mutual-fund-sales-charges": {
       "asked": 1,
       "missed": 0,
-      "lastAsked": "2026-08-19",
+      "lastAsked": "2026-09-07",
       "exam": "SIE/S7"
     },
     "retirement-accounts-rmd": {
@@ -63,7 +63,7 @@
     "covered-calls": {
       "asked": 1,
       "missed": 0,
-      "lastAsked": "2026-08-21",
+      "lastAsked": "2026-09-07",
       "exam": "S7"
     },
     "custodial-accounts-ugma-utma": {
@@ -81,7 +81,7 @@
     "s63-de-minimis-vs-agent-registration": {
       "asked": 1,
       "missed": 0,
-      "lastAsked": "2026-08-21",
+      "lastAsked": "2026-09-07",
       "exam": "S63"
     },
     "sma-and-buying-power": {
@@ -257,6 +257,30 @@
       "missed": 0,
       "lastAsked": "2026-09-04",
       "exam": "SIE/S7"
+    },
+    "mutual-fund-forward-pricing-redemption-12b1": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-09-07",
+      "exam": "SIE/S7"
+    },
+    "callable-bond-yields-yield-to-worst": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-09-07",
+      "exam": "S7"
+    },
+    "s63-ia-iar-federal-covered": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-09-07",
+      "exam": "S63"
+    },
+    "options-tax-qcc-straddle-holding-period": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-09-07",
+      "exam": "S7"
     }
   },
   "history": [
@@ -588,6 +612,30 @@
       ],
       "graded": false,
       "note": "No reply found on any of the 11 prior drill threads, so no miss data. Selection driven by spacing: margin-accounts and s63-exemptions last asked 2026-08-18, options-spreads and muni-go-vs-revenue last asked 2026-08-19; convertible-bonds-parity is new material."
+    },
+    {
+      "date": "2026-09-07",
+      "gmailThreadId": "1a07bc681d6501ef",
+      "subject": "Finance drill - September 7, 2026",
+      "topics": [
+        "short-margin-accounts",
+        "mutual-fund-forward-pricing-redemption-12b1",
+        "callable-bond-yields-yield-to-worst",
+        "s63-ia-iar-federal-covered",
+        "options-tax-qcc-straddle-holding-period"
+      ],
+      "formats": [
+        "calculation",
+        "multiple-choice-plus-short-answer",
+        "calculation",
+        "multiple-choice-plus-short-answer",
+        "explain-one-sentence"
+      ],
+      "newTopics": [
+        "callable-bond-yields-yield-to-worst"
+      ],
+      "graded": false,
+      "note": "Searched Gmail subject:\"Finance drill\" newer_than:10d. Four threads returned (8/28, 9/1, 9/3, 9/4), each a single sent message with zero replies. Twelve drills out, no reply has ever arrived, so no grading and all missed counts stay 0. No drill ran Sat/Sun 9/5-9/6. The 2-high-miss split is still unachievable; substituted 2 escalations of the stalest topics (short-margin-accounts, last asked 8/19, escalated from the basic short setup to the maintenance call, the credit-balance/1.30 breakeven price and the sub-$5 rule; mutual-fund-sales-charges, last asked 8/19, escalated to forward pricing, 12b-1 caps and redemption timing) plus 2 escalations of 8/21 material (covered-calls to QCC holding-period suspension vs protective put reset; s63-de-minimis to the IA/IAR/federal-covered division of authority) and 1 new topic from gapsToMineNext (callable bond yield to worst). Verified by web search before writing: FINRA 4210 short maintenance is UNCHANGED by the 2026-06-04 rewrite that eliminated PDT, still greater of 30% of CMV or $5/share for stock at or above $5, and greater of 100% of CMV or $2.50/share below $5, with the $2,000 minimum equity intact and portfolio margin using 50% rather than 30% on short equity (FINRA published Interpretations of Rule 4210 valid from 2026-06-04 citing Notices 21-24 and 26-11, all on intraday margin deficit procedures, not the short formula); FINRA Rule 2341 caps the asset-based sales charge at 0.75% and the service fee at 0.25% for a 1.00% combined ceiling, bars the no-load label once 12b-1 plus service fees exceed 0.25%, and sets the 8.5% front-end max conditioned on breakpoints, ROA and LOI (7.25% if the fund pays a service fee but has no asset-based charge, 6.25% per transaction if it has one); Rule 22c-1 forward pricing gives the next computed NAV and Section 22(e) requires payment within 7 calendar days; the IA AUM ladder is unchanged as of Sept 2026 (under $100M state, $100M-$110M buffer, $110M+ mandatory SEC, withdraw below $90M, tested annually), states keep notice filing on place of business or 6+ clients in 12 months plus retained antifraud authority, and an IAR of a federal covered adviser registers ONLY where the IAR has a place of business, unlike an agent or an IAR of a state-registered adviser. NOTE: Acting Chair Uyeda directed staff in April 2025 to evaluate raising the $100M threshold and a separate proposal would move the small-entity definition from $25M to $1B, neither adopted, both likely future distractors; the 2026 qualified client reset to $1.4M AUM / $2.7M net worth under Advisers Act Rule 205-3 is a different test and a known distractor. Options tax verified: Section 1092(f) suspends the stock holding period while the taxpayer is the grantor of an in-the-money QCC (at- or out-of-the-money qualified calls do not touch it under 246(c)), a protective put on stock held one year or less kills the accrued period outright and restarts it under 1233(b), stock already long-term is unaffected by either, and adding a put to a QCC position creates a larger straddle that voids 1092(c)(4) entirely per Rev. Rul. 2002-66. Single send, no duplicate this run."
     }
   ],
   "syllabusNotes": {
@@ -610,16 +658,16 @@
     "gapsToMineNext": [
       "education savings follow-ups: 529 state tax conformity to OBBBA, ABLE accounts, UGMA-to-529 conversions (529 vs Coverdell done 9/1, contribution limits and 72(t) done 8/28)",
       "muni analysis detail: overlapping debt, debt per capita, MSRB rules G-37 and G-38 (flow of funds and DSCR done 8/27)",
-      "Series 63 remaining: IA vs IAR vs federal covered division of authority, custody and discretion rules, fraudulent practices in advisory contracts (de minimis done 8/21, enforcement powers done 8/28, registration mechanics done 9/1, offer/sale and unlawful representations done 9/3)",
+      "Series 63 remaining: IA vs IAR vs federal covered division of authority, custody and discretion rules, fraudulent practices in advisory contracts (IA vs IAR vs federal covered done 9/7, de minimis done 8/21, enforcement powers done 8/28, registration mechanics done 9/1, offer/sale and unlawful representations done 9/3)",
       "communications with the public: testimonials, projections of performance, social media and recordkeeping (Rule 2210 categories and filing done 8/28)",
       "primary market remaining: shelf registration Rule 415 and WKSI, Rule 147 intrastate and Rule 504 (Rule 144 done 8/21, commitments and Reg A done 8/27, cooling off and prospectus delivery done 9/1, 506(b) vs 506(c) and accredited investor tests done 9/3)",
       "account types: numbered accounts, prime brokerage, corporate and partnership account documents (UGMA/UTMA done 8/21, JTWROS/TIC/discretion done 8/27, TOD and death of a customer done 9/3)",
-      "mutual fund forward pricing, redemption timing and 12b-1 fee limits (A vs C breakeven done 8/28, LOI/ROA done 8/24)",
-      "margin remaining: exempt and bond margin, cash account rules including Reg T free-riding (long-account SMA done 8/24, combined account done 8/27, PDT-to-intraday-margin rewrite done 9/1, options spread margin done 9/3)",
-      "options tax remaining: straddle loss deferral, qualified covered calls and protective put holding-period suspension (wash sales done 8/26, exercise/assignment basis and LEAPS done 9/1)",
+      "mutual fund remaining: exchanges within a family, conversion/breakpoint selling violations (forward pricing, 7-day redemption and 12b-1 caps done 9/7, A vs C breakeven done 8/28, LOI/ROA done 8/24)",
+      "margin remaining: exempt and bond margin, cash account rules including Reg T free-riding (short-account maintenance and sub-$5 rule done 9/7, long-account SMA done 8/24, combined account done 8/27, PDT-to-intraday-margin rewrite done 9/1, options spread margin done 9/3)",
+      "options tax remaining: straddle loss deferral and capitalized carrying charges under 263(g) (QCC suspension and protective put reset done 9/7, wash sales done 8/26, exercise/assignment basis and LEAPS done 9/1)",
       "variable annuity separate account regulation, AIR and suitability (1035 done 8/26, payout units done 8/27, LIFO and exclusion ratio done 8/28)",
       "arbitration mechanics: predispute agreement disclosure rules, mediation (COP vs COA done 8/26)",
-      "bond pricing mechanics: dollar price to yield, premium/discount amortization and accretion, callable bond yield to worst (accrued interest 30/360 and actual/actual done 9/3 and 8/21)"
+      "bond pricing mechanics remaining: dollar price to yield conversion, premium amortization and discount accretion for tax basis (yield ranking and yield to worst done 9/7, accrued interest 30/360 and actual/actual done 9/3)"
     ],
     "ruleChangeWatch": [
       {
