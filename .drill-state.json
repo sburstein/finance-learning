@@ -49,9 +49,9 @@
       "exam": "SIE/S7"
     },
     "retirement-accounts-rmd": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-19",
+      "lastAsked": "2026-09-08",
       "exam": "SIE/S7"
     },
     "muni-go-vs-revenue": {
@@ -73,9 +73,9 @@
       "exam": "SIE/S7"
     },
     "rule-144-control-stock": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-21",
+      "lastAsked": "2026-09-08",
       "exam": "SIE/S7"
     },
     "s63-de-minimis-vs-agent-registration": {
@@ -85,9 +85,9 @@
       "exam": "S63"
     },
     "sma-and-buying-power": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-24",
+      "lastAsked": "2026-09-08",
       "exam": "S7"
     },
     "mutual-fund-loi-breakpoints": {
@@ -109,9 +109,9 @@
       "exam": "SIE/S7"
     },
     "reg-bi-best-interest": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-24",
+      "lastAsked": "2026-09-08",
       "exam": "SIE/S7/S63"
     },
     "options-tax-wash-sales": {
@@ -280,6 +280,12 @@
       "asked": 1,
       "missed": 0,
       "lastAsked": "2026-09-07",
+      "exam": "S7"
+    },
+    "options-contract-adjustments": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-09-08",
       "exam": "S7"
     }
   },
@@ -636,6 +642,62 @@
       ],
       "graded": false,
       "note": "Searched Gmail subject:\"Finance drill\" newer_than:10d. Four threads returned (8/28, 9/1, 9/3, 9/4), each a single sent message with zero replies. Twelve drills out, no reply has ever arrived, so no grading and all missed counts stay 0. No drill ran Sat/Sun 9/5-9/6. The 2-high-miss split is still unachievable; substituted 2 escalations of the stalest topics (short-margin-accounts, last asked 8/19, escalated from the basic short setup to the maintenance call, the credit-balance/1.30 breakeven price and the sub-$5 rule; mutual-fund-sales-charges, last asked 8/19, escalated to forward pricing, 12b-1 caps and redemption timing) plus 2 escalations of 8/21 material (covered-calls to QCC holding-period suspension vs protective put reset; s63-de-minimis to the IA/IAR/federal-covered division of authority) and 1 new topic from gapsToMineNext (callable bond yield to worst). Verified by web search before writing: FINRA 4210 short maintenance is UNCHANGED by the 2026-06-04 rewrite that eliminated PDT, still greater of 30% of CMV or $5/share for stock at or above $5, and greater of 100% of CMV or $2.50/share below $5, with the $2,000 minimum equity intact and portfolio margin using 50% rather than 30% on short equity (FINRA published Interpretations of Rule 4210 valid from 2026-06-04 citing Notices 21-24 and 26-11, all on intraday margin deficit procedures, not the short formula); FINRA Rule 2341 caps the asset-based sales charge at 0.75% and the service fee at 0.25% for a 1.00% combined ceiling, bars the no-load label once 12b-1 plus service fees exceed 0.25%, and sets the 8.5% front-end max conditioned on breakpoints, ROA and LOI (7.25% if the fund pays a service fee but has no asset-based charge, 6.25% per transaction if it has one); Rule 22c-1 forward pricing gives the next computed NAV and Section 22(e) requires payment within 7 calendar days; the IA AUM ladder is unchanged as of Sept 2026 (under $100M state, $100M-$110M buffer, $110M+ mandatory SEC, withdraw below $90M, tested annually), states keep notice filing on place of business or 6+ clients in 12 months plus retained antifraud authority, and an IAR of a federal covered adviser registers ONLY where the IAR has a place of business, unlike an agent or an IAR of a state-registered adviser. NOTE: Acting Chair Uyeda directed staff in April 2025 to evaluate raising the $100M threshold and a separate proposal would move the small-entity definition from $25M to $1B, neither adopted, both likely future distractors; the 2026 qualified client reset to $1.4M AUM / $2.7M net worth under Advisers Act Rule 205-3 is a different test and a known distractor. Options tax verified: Section 1092(f) suspends the stock holding period while the taxpayer is the grantor of an in-the-money QCC (at- or out-of-the-money qualified calls do not touch it under 246(c)), a protective put on stock held one year or less kills the accrued period outright and restarts it under 1233(b), stock already long-term is unaffected by either, and adding a put to a QCC position creates a larger straddle that voids 1092(c)(4) entirely per Rev. Rul. 2002-66. Single send, no duplicate this run."
+    },
+    {
+      "date": "2026-09-08",
+      "subject": "Finance drill - September 8, 2026",
+      "gmailThreadId": "1a080ed42115a00c",
+      "graded": false,
+      "topics": [
+        "sma-and-buying-power",
+        "rule-144-control-stock",
+        "options-contract-adjustments",
+        "retirement-accounts-rmd",
+        "reg-bi-best-interest"
+      ],
+      "newTopics": [
+        "options-contract-adjustments"
+      ],
+      "formats": [
+        "calculation",
+        "multiple-choice",
+        "calculation",
+        "multiple-choice",
+        "explain-in-a-sentence"
+      ],
+      "note": "Searched Gmail subject:\"Finance drill\" newer_than:10d. Four threads returned (9/1, 9/3, 9/4, 9/7), each a single sent message with zero replies. Thirteen drills out, no reply has ever arrived, so no grading and all missed counts stay 0. No drill Sat/Sun 9/5-9/6. The 2-high-miss split remains unachievable; substituted the three stalest topics (retirement-accounts-rmd last asked 8/19, escalated from contribution/RMD basics to the inherited IRA 10-year rule and the RBD test for annual RMDs inside the window; rule-144-control-stock last asked 8/21, escalated to the 1% vs 4-week-volume greater-of computation plus the Form 144 trigger; sma-and-buying-power last asked 8/24, escalated to a 3-part chain covering a cash withdrawal against SMA and a subsequent market decline), plus reg-bi-best-interest (8/24) as the explain-in-a-sentence, plus 1 new topic, options-contract-adjustments. Verified by web search before writing: Rule 144(e) affiliate cap is the GREATER of 1% of shares outstanding or average weekly reported volume over the 4 weeks preceding the Form 144 filing (OTC issuers get only the 1% prong, no reported volume), Form 144 required when a sale exceeds 5,000 shares OR $50,000 in any 3-month period, thresholds unchanged since the 2008 amendments and not inflation-indexed, now filed electronically on EDGAR since the 2022 e-filing rule so the old \"three copies to the SEC, one to the exchange\" answer is obsolete; the 6-month holding period attaches to RESTRICTED securities only, not to control shares bought in the open market (the designed distractor). RMD ages confirmed current for Sept 2026: 73 for those turning 72 after 12/31/2022, 75 for those turning 73 after 12/31/2032, with the 1959 birth-year ambiguity resolved to 73 by proposed regs; Roth 401(k) RMDs eliminated for owners starting 2024 but still required of beneficiaries. Inherited IRA final regs T.D. 10001 (issued 7/19/2024, effective 1/1/2025) retained the 2022 proposed position: a non-EDB under the 10-year rule owes annual RMDs in years 1-9 ONLY when the owner died on or after the RBD; if death preceded the RBD there is no annual requirement, just the year-10 deadline. Penalty waivers covered 2021-2024 only. 5-year rule belongs to non-designated beneficiaries (estate, non-qualifying trust) on pre-RBD death. OCC adjustments confirmed: whole-number splits (ratio ending in 1) multiply contract count, divide the strike, deliverable stays 100; uneven ratios (5:4, 3:2, 4:3), stock dividends and reverse splits leave contract count alone, divide the strike and scale the deliverable by the factor; aggregate exercise value is preserved either way; ordinary quarterly cash dividends trigger no adjustment. SMA confirmed: buying power = 2x SMA at 50% Reg T, SMA is a high-water mark that never declines on market depreciation, cash withdrawn against SMA is added to the debit balance, and SMA may not be used to meet a maintenance call. Single send, no duplicate this run.",
+      "questions": [
+        {
+          "n": 1,
+          "topic": "sma-and-buying-power",
+          "format": "calculation",
+          "answer": "a) EQ $50,000, SMA $10,000, BP $20,000. b) Dr $34,000, EQ $46,000, SMA $6,000, BP $12,000, still unrestricted. c) Restricted (EQ $26,000 < Reg T $30,000), no maintenance call (EQ $26,000 > $15,000), SMA still $6,000."
+        },
+        {
+          "n": 2,
+          "topic": "rule-144-control-stock",
+          "format": "multiple-choice",
+          "answer": "B. 400,000 shares (1% of 40M beats the 350,000 4-week average), Form 144 filed at or before the order."
+        },
+        {
+          "n": 3,
+          "topic": "options-contract-adjustments",
+          "format": "calculation",
+          "answer": "a) 25% stock dividend, factor 1.25: 4 contracts, $40 strike, 125 shares each. b) 2-for-1: 8 contracts, $25 strike, 100 shares each. Aggregate exercise value $20,000 in all three states."
+        },
+        {
+          "n": 4,
+          "topic": "retirement-accounts-rmd",
+          "format": "multiple-choice",
+          "answer": "B. Annual RMD from 2027 on the son\u2019s single life expectancy (owner died post-RBD) plus full distribution by 12/31/2036."
+        },
+        {
+          "n": 5,
+          "topic": "reg-bi-best-interest",
+          "format": "explain-in-a-sentence",
+          "answer": "Care requires a reasonable basis that the recommendation is in the retail customer\u2019s best interest, weighing cost and reasonably available alternatives, and bars placing the rep\u2019s or firm\u2019s interest ahead of the customer\u2019s; suitability only required a fit."
+        }
+      ]
     }
   ],
   "syllabusNotes": {
