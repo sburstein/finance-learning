@@ -1,15 +1,15 @@
 {
   "topics": {
     "settlement-and-reg-t": {
-      "asked": 2,
+      "asked": 3,
       "missed": 0,
-      "lastAsked": "2026-08-26",
+      "lastAsked": "2026-09-14",
       "exam": "SIE/S7"
     },
     "options-breakevens": {
-      "asked": 2,
+      "asked": 3,
       "missed": 0,
-      "lastAsked": "2026-08-26",
+      "lastAsked": "2026-09-14",
       "exam": "S7"
     },
     "margin-accounts": {
@@ -19,9 +19,9 @@
       "exam": "S7"
     },
     "accrued-interest": {
-      "asked": 2,
+      "asked": 3,
       "missed": 0,
-      "lastAsked": "2026-08-21",
+      "lastAsked": "2026-09-13",
       "exam": "SIE/S7"
     },
     "s63-exemptions": {
@@ -67,9 +67,9 @@
       "exam": "S7"
     },
     "custodial-accounts-ugma-utma": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-21",
+      "lastAsked": "2026-09-13",
       "exam": "SIE/S7"
     },
     "rule-144-control-stock": {
@@ -91,21 +91,21 @@
       "exam": "S7"
     },
     "mutual-fund-loi-breakpoints": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-24",
+      "lastAsked": "2026-09-14",
       "exam": "SIE/S7"
     },
     "protective-puts-collars": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-24",
+      "lastAsked": "2026-09-13",
       "exam": "S7"
     },
     "packaged-products-uit-cef-openend": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-24",
+      "lastAsked": "2026-09-14",
       "exam": "SIE/S7"
     },
     "reg-bi-best-interest": {
@@ -127,9 +127,9 @@
       "exam": "SIE/S7"
     },
     "finra-code-of-procedure-vs-arbitration": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-26",
+      "lastAsked": "2026-09-13",
       "exam": "SIE/S7"
     },
     "combined-margin-long-short": {
@@ -286,6 +286,18 @@
       "asked": 1,
       "missed": 0,
       "lastAsked": "2026-09-08",
+      "exam": "S7"
+    },
+    "aml-sar-ctr-cip": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-09-13",
+      "exam": "SIE"
+    },
+    "dpp-flow-through-passive-losses": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-09-14",
       "exam": "S7"
     }
   },
@@ -698,6 +710,128 @@
           "answer": "Care requires a reasonable basis that the recommendation is in the retail customer\u2019s best interest, weighing cost and reasonably available alternatives, and bars placing the rep\u2019s or firm\u2019s interest ahead of the customer\u2019s; suitability only required a fit."
         }
       ]
+    },
+    {
+      "date": "2026-09-13",
+      "subject": "Finance drill - September 13, 2026",
+      "gmailThreadId": "1a09bdb6b6e58d00",
+      "graded": false,
+      "topics": [
+        "accrued-interest",
+        "custodial-accounts-ugma-utma",
+        "protective-puts-collars",
+        "aml-sar-ctr-cip",
+        "finra-code-of-procedure-vs-arbitration"
+      ],
+      "newTopics": [
+        "aml-sar-ctr-cip"
+      ],
+      "formats": [
+        "calculation",
+        "multiple-choice",
+        "calculation",
+        "multiple-choice",
+        "explain-one-sentence"
+      ],
+      "questions": [
+        {
+          "n": 1,
+          "topic": "accrued-interest",
+          "format": "calculation",
+          "prompt": "5 T-notes 4% Nov 15 2033, semiannual May 15/Nov 15, traded regular way Thu 9/10/2026, last coupon 5/15/2026. Accrued interest?",
+          "answer": "$64.67 total ($12.93/bond). T+1 settle 9/11; 119 days accrued; actual/actual denominator 184; $20 x 119/184 x 5. 30/360 trap gives $64.44."
+        },
+        {
+          "n": 2,
+          "topic": "custodial-accounts-ugma-utma",
+          "format": "multiple-choice",
+          "prompt": "Which statement about a UTMA account is TRUE?",
+          "answer": "C. Income taxable to the minor under the minor's SSN. Gift is irrevocable; cash account only (no margin/short/uncovered options); one custodian, one minor."
+        },
+        {
+          "n": 3,
+          "topic": "protective-puts-collars",
+          "format": "calculation",
+          "prompt": "Long 100 XYZ at 48, buy 1 Oct 45 put at 2, write 1 Oct 55 call at 1. Breakeven, max gain, max loss?",
+          "answer": "BE $49, max gain $600, max loss $400. Net $1 debit raises effective cost to 49; measure to each strike."
+        },
+        {
+          "n": 4,
+          "topic": "aml-sar-ctr-cip",
+          "format": "multiple-choice",
+          "prompt": "Customer wires $8,500 offshore to unrelated third party, third such transfer, no business purpose. Correct statement?",
+          "answer": "B. SAR within 30 calendar days of initial detection (60 max if no suspect identified), no tipping off. BD SAR threshold is $5,000, not $10,000. CTR is currency only, over $10,000 same business day, filed within 15 days."
+        },
+        {
+          "n": 5,
+          "topic": "finra-code-of-procedure-vs-arbitration",
+          "format": "explain-one-sentence",
+          "prompt": "Distinguish FINRA Code of Procedure from Code of Arbitration in one sentence.",
+          "answer": "Procedure = FINRA disciplinary action against a member/associated person for a rule violation (sanctions). Arbitration = monetary dispute between parties, binding award. Rule 12000 customer, 13000 industry."
+        }
+      ],
+      "note": "Searched Gmail subject:\"Finance drill\" newer_than:14d. Five threads returned (9/1, 9/3, 9/4, 9/7, 9/8), each a single sent message with zero replies and all still marked UNREAD. Fourteen drills out, no reply has ever arrived, so no grading was possible and every missed count stays 0. The 2-from-highest-miss-rate split remains unachievable; substituted the four stalest topics, each escalated past where it was left: accrued-interest (8/21, was corporate 30/360, escalated to Treasury actual/actual with a T+1 settlement step and a 30/360 distractor), custodial-accounts-ugma-utma (8/21, escalated from basics to irrevocability, cash-only restriction, and the one-custodian-one-minor rule), protective-puts-collars (8/24, escalated to a full three-part breakeven/max-gain/max-loss computation on a net-debit collar), finra-code-of-procedure-vs-arbitration (8/26, used as the explain-in-a-sentence). One new topic: aml-sar-ctr-cip, the first AML question in 49 topics. Verified by web search before writing: broker-dealer SAR threshold is $5,000 per 31 CFR 1023.320 (not the $25,000 bank figure, the error FINRA fined Merrill Lynch $6 million over), filing due 30 calendar days after initial detection with a 30-day extension only when no suspect is identified and a 60-day hard cap, tipping off prohibited; CTR covers physical currency over $10,000 by or on behalf of the same person in one business day, filed within 15 days per 31 CFR 1010.306, and wires/checks/securities trades never trigger one; FinCEN October 2025 FAQs confirm transactions merely near the $10,000 threshold do not by themselves require a SAR. Treasury notes and bonds confirmed actual/actual (corporates, munis, agencies are 30/360; T-bills accrue nothing), regular-way T+1, accruing from and including the last coupon date up to but not including settlement. Day count checked: 9/10/2026 is a Thursday so settlement is Friday 9/11 with no holiday, 5/15 to 9/11 is 119 actual days, coupon period 5/15 to 11/15 is 184 days, $20 x 119/184 = $12.9348 per bond, $64.67 for five. Schedule note: this run fired on a Sunday despite the task being the weekday drill, and no drill ran on the weekdays 9/9 through 9/11. Sent once, no duplicate."
+    },
+    {
+      "date": "2026-09-14",
+      "subject": "Finance drill - September 14, 2026",
+      "gmailThreadId": "1a09fee810ff6103",
+      "graded": false,
+      "topics": [
+        "options-breakevens",
+        "mutual-fund-loi-breakpoints",
+        "settlement-and-reg-t",
+        "packaged-products-uit-cef-openend",
+        "dpp-flow-through-passive-losses"
+      ],
+      "newTopics": [
+        "dpp-flow-through-passive-losses"
+      ],
+      "formats": [
+        "calculation",
+        "calculation",
+        "multiple-choice",
+        "multiple-choice",
+        "explain-in-a-sentence"
+      ],
+      "questions": [
+        {
+          "n": 1,
+          "topic": "options-breakevens",
+          "format": "calculation",
+          "prompt": "Short combination: write 1 ABC Oct 50 put @3 and write 1 ABC Oct 60 call @2. Net credit, both breakevens, max gain and range, max loss each side, P/L at 68.",
+          "answer": "Credit $500; BEs 45 and 65; max gain $500 between 50 and 60; upside loss unlimited, downside max loss $4,500; at 68 a $300 loss."
+        },
+        {
+          "n": 2,
+          "topic": "mutual-fund-loi-breakpoints",
+          "format": "calculation",
+          "prompt": "$20,000 invested 3/2/2026 with no LOI; LOI for $50,000 signed 5/15/2026 backdated to 3/2. Backdating permitted? End date? Amount remaining? Rate? Consequence of stopping at $42,000 total.",
+          "answer": "Yes, 75 days is inside the 90-day backdate limit; period ends 4/2/2027 (13 months inclusive of backdate); $30,000 more; 4.00%; LOI fails at $42,000, escrowed shares (about 5% of stated intent) liquidated to collect the 4% vs 5% difference, no obligation to complete, shares always redeemable."
+        },
+        {
+          "n": 3,
+          "topic": "settlement-and-reg-t",
+          "format": "multiple-choice",
+          "prompt": "Cash-account buy of 500 XYZ regular way Tue 9/15/2026, unpaid. Which statement is correct?",
+          "answer": "C. T+1 settlement lands Wed 9/16; Reg T adds two business days beyond the settlement cycle, so payment is due Fri 9/18 (T+3). Firm may request an SRO extension; absent one it sells out and the account is frozen 90 calendar days. $1,000-or-less unpaid amounts may be disregarded."
+        },
+        {
+          "n": 4,
+          "topic": "packaged-products-uit-cef-openend",
+          "format": "multiple-choice",
+          "prompt": "Which statement about UITs, closed-end and open-end funds is TRUE?",
+          "answer": "B. CEFs may issue senior securities (bonds at 300% asset coverage, preferred at 200%); open-end funds may issue only one class of voting common stock. UITs are unmanaged with a fixed portfolio and a termination date; premium/discount to NAV applies to CEFs, not open-end shares."
+        },
+        {
+          "n": 5,
+          "topic": "dpp-flow-through-passive-losses",
+          "format": "explain-in-a-sentence",
+          "prompt": "Why can a limited partner in a real estate DPP not deduct partnership losses against salary, and what can those losses offset?",
+          "answer": "A DPP is a flow-through entity so losses pass to partners untaxed at the entity level, but a limited partner interest is passive by definition, so the losses offset only passive income, not earned or portfolio income; unused losses carry forward and free up fully on complete disposition of the interest."
+        }
+      ],
+      "note": "Checked the last three drill threads plus all six returned by subject:\"Finance drill\" newer_than:14d (9/13, 9/8, 9/7, 9/4, 9/3, 9/1). Every one is a single sent message with zero replies, and all six are still marked UNREAD. Fifteen drills out, no grading input, so all missed counts stay 0 and the 2-high-miss slots were unachievable again. Substituted the two stalest repeat topics with escalated difficulty: options-breakevens (last 8/26, 2 prior asks) moved from single-leg to a short combination with two breakevens and an asymmetric max-loss profile, and settlement-and-reg-t (last 8/26, 2 prior asks) moved from plain settlement dates to the Reg T payment deadline under T+1 with the freeze mechanics. Spacing slots went to the two stalest topics overall, both last asked 8/24: mutual-fund-loi-breakpoints and packaged-products-uit-cef-openend. New material: dpp-flow-through-passive-losses. Verified two rules by web search before writing: Reg T payment period is the standard settlement cycle plus two business days (T+3 under T+1 since May 2024) with a 90-calendar-day freeze under 220.8(c), and LOI backdating is capped at 90 days inside a 13-month period that is inclusive of the backdate."
     }
   ],
   "syllabusNotes": {
