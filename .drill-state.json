@@ -115,15 +115,15 @@
       "exam": "SIE/S7/S63"
     },
     "options-tax-wash-sales": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-26",
+      "lastAsked": "2026-09-16",
       "exam": "SIE/S7"
     },
     "variable-annuities-1035": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-26",
+      "lastAsked": "2026-09-16",
       "exam": "SIE/S7"
     },
     "finra-code-of-procedure-vs-arbitration": {
@@ -133,15 +133,15 @@
       "exam": "SIE/S7"
     },
     "combined-margin-long-short": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-27",
+      "lastAsked": "2026-09-16",
       "exam": "S7"
     },
     "muni-revenue-bond-flow-of-funds-dscr": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-27",
+      "lastAsked": "2026-09-16",
       "exam": "S7"
     },
     "underwriting-commitments-and-reg-a": {
@@ -299,6 +299,12 @@
       "missed": 0,
       "lastAsked": "2026-09-14",
       "exam": "S7"
+    },
+    "bond-duration-interest-rate-risk": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-09-16",
+      "exam": "SIE/S7"
     }
   },
   "history": [
@@ -832,6 +838,67 @@
         }
       ],
       "note": "Checked the last three drill threads plus all six returned by subject:\"Finance drill\" newer_than:14d (9/13, 9/8, 9/7, 9/4, 9/3, 9/1). Every one is a single sent message with zero replies, and all six are still marked UNREAD. Fifteen drills out, no grading input, so all missed counts stay 0 and the 2-high-miss slots were unachievable again. Substituted the two stalest repeat topics with escalated difficulty: options-breakevens (last 8/26, 2 prior asks) moved from single-leg to a short combination with two breakevens and an asymmetric max-loss profile, and settlement-and-reg-t (last 8/26, 2 prior asks) moved from plain settlement dates to the Reg T payment deadline under T+1 with the freeze mechanics. Spacing slots went to the two stalest topics overall, both last asked 8/24: mutual-fund-loi-breakpoints and packaged-products-uit-cef-openend. New material: dpp-flow-through-passive-losses. Verified two rules by web search before writing: Reg T payment period is the standard settlement cycle plus two business days (T+3 under T+1 since May 2024) with a 90-calendar-day freeze under 220.8(c), and LOI backdating is capped at 90 days inside a 13-month period that is inclusive of the backdate."
+    },
+    {
+      "date": "2026-09-16",
+      "subject": "Finance drill - September 16, 2026",
+      "gmailThreadId": "1a0aa1f2f8be0496",
+      "graded": false,
+      "topics": [
+        "options-tax-wash-sales",
+        "variable-annuities-1035",
+        "combined-margin-long-short",
+        "muni-revenue-bond-flow-of-funds-dscr",
+        "bond-duration-interest-rate-risk"
+      ],
+      "formats": [
+        "calculation",
+        "multiple-choice",
+        "calculation",
+        "multiple-choice",
+        "explain-in-a-sentence"
+      ],
+      "newTopics": [
+        "bond-duration-interest-rate-risk"
+      ],
+      "note": "Checked the last three drill threads (9/14, 9/13, 9/8) for replies before selecting today's topics. All three are still single sent messages marked UNREAD with zero replies, so no reply-based grading input exists and every missed count stays 0 (16 drills out, no reply has ever arrived). The 2-highest-missed-rate slot is unachievable for the same reason as every prior run. Substituted the four stalest topics, matching the established pattern: options-tax-wash-sales and variable-annuities-1035 (both last asked 8/26, unmoved since), combined-margin-long-short and muni-revenue-bond-flow-of-funds-dscr (both last asked 8/27, unmoved since). New material: bond-duration-interest-rate-risk, the first duration/interest-rate-risk question in 51 topics. Verified by web search before writing: SEC/IRS wash sale guidance confirms buying a call option on the same underlying within the 30-day window (61-day window total) counts as acquiring a substantially identical security under Section 1091, with the disallowed loss added to the replacement position's basis (deep in-the-money calls are the clearest case, but exam-level treatment applies to any same-stock call in the window); Section 1035 requires the owner and annuitant to match exactly between old and new contracts with no exceptions, permits annuity-to-annuity and life-to-annuity but never annuity-to-life, and basis carries over intact; municipal net revenue pledge flow of funds is Revenue Fund to O&M Fund to Debt Service Fund to Debt Service Reserve Fund to Renewal & Replacement Fund to Surplus Fund, with DSCR = net revenue / debt service (not the inverse). Single send, no duplicate this run.",
+      "questions": [
+        {
+          "n": 1,
+          "topic": "options-tax-wash-sales",
+          "format": "calculation",
+          "prompt": "Buy 100 ABC at 70, sell at 61 (loss), buy 1 ABC Nov 65 call for 4 fifteen days later. Loss amount, wash sale applicability, new basis of call?",
+          "answer": " loss; wash sale applies (call on same underlying within 30 days is substantially identical); loss disallowed and added to call basis:  +  = ,300."
+        },
+        {
+          "n": 2,
+          "topic": "variable-annuities-1035",
+          "format": "multiple-choice",
+          "prompt": "Which annuity exchange qualifies for 1035 tax-free treatment?",
+          "answer": "B. Same owner/annuitant, annuity-to-annuity, equal value; basis of ,000 carries over."
+        },
+        {
+          "n": 3,
+          "topic": "combined-margin-long-short",
+          "format": "calculation",
+          "prompt": "Long 200 sh at 40 (DR 3,000), short 100 sh at 50 (CR 8,500). Combined equity, Reg T requirement, SMA?",
+          "answer": "Equity ,500; Reg T req ,500; SMA ,000."
+        },
+        {
+          "n": 4,
+          "topic": "muni-revenue-bond-flow-of-funds-dscr",
+          "format": "multiple-choice",
+          "prompt": "Gross revenue M, O&M M, debt service M, 1.50x covenant. Which statement is true?",
+          "answer": "A. Net revenue M, DSCR 1.60x, covenant satisfied; Debt Service Fund funded before Debt Service Reserve Fund."
+        },
+        {
+          "n": 5,
+          "topic": "bond-duration-interest-rate-risk",
+          "format": "explain-in-a-sentence",
+          "prompt": "Explain what duration measures and name one feature that increases it.",
+          "answer": "Duration approximates % price change per 1% rate change; longer maturity, lower coupon, no call feature increase it."
+        }
+      ]
     }
   ],
   "syllabusNotes": {
