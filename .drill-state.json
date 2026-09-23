@@ -169,9 +169,9 @@
       "exam": "SIE/S7"
     },
     "usa-administrator-enforcement-powers": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-28",
+      "lastAsked": "2026-09-23",
       "exam": "S63"
     },
     "finra-2210-communications": {
@@ -181,15 +181,15 @@
       "exam": "SIE/S7"
     },
     "mutual-fund-share-class-breakeven": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-28",
+      "lastAsked": "2026-09-23",
       "exam": "SIE/S7"
     },
     "annuity-taxation-lifo-exclusion-ratio": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-08-28",
+      "lastAsked": "2026-09-23",
       "exam": "SIE/S7"
     },
     "intraday-margin-replaces-pdt": {
@@ -199,9 +199,9 @@
       "exam": "S7"
     },
     "529-and-coverdell": {
-      "asked": 1,
+      "asked": 2,
       "missed": 0,
-      "lastAsked": "2026-09-01",
+      "lastAsked": "2026-09-23",
       "exam": "SIE/S7"
     },
     "options-tax-exercise-assignment-basis-leaps": {
@@ -311,6 +311,12 @@
       "missed": 0,
       "lastAsked": "2026-09-22",
       "exam": "SIE/S7"
+    },
+    "bond-premium-amortization-discount-accretion": {
+      "asked": 1,
+      "missed": 0,
+      "lastAsked": "2026-09-23",
+      "exam": "S7"
     }
   },
   "history": [
@@ -966,6 +972,67 @@
         }
       ],
       "note": "Checked the last three drill threads (9/13 1a09bdb6b6e58d00, 9/14 1a09fee810ff6103, 9/16 1a0aa1f2f8be0496) for replies. Each is still a single sent message with zero replies, so no grading input and every missed count stays 0. The 2-highest-missed slot remains unachievable for the same reason as every prior run. Substituted the three stalest topics, all last asked 8/27 and unmoved since: underwriting-commitments-and-reg-a (escalated from standby/all-or-none/Reg A Tier 2 to the manager's fee, additional takedown and concession spread-allocation math), annuity-payout-units-and-options (escalated from the mechanics of annuity unit conversion to the AIR-vs-actual-performance payment comparison), account-registration-jtwros-tic-discretion (escalated from JTWROS/TIC/three-A's discretion to full vs limited trading authorization). Used retirement-plan-limits-and-early-withdrawal-exceptions (last asked 8/28) as the second calculation since it had clean numeric content (SIMPLE IRA 25% penalty window) and was among the next-stalest group. New topic: finra-communications-testimonials-social-media, pulled from gapsToMineNext. Verified by web search before writing: underwriting spread = manager's fee + additional takedown + selling concession, with syndicate members (bear liability) earning takedown+concession as the 'total takedown' on shares sold themselves, selling group members (no liability) earning only the concession, and the syndicate manager earning the full spread on shares it sells directly; FINRA Rule 2210 classifies static social media content (pre-written posts, articles, web pages) as retail communication requiring registered-principal approval before use, while interactive/real-time content (live chat, DM replies, comment responses) is correspondence under risk-based supervision rather than pre-use approval, with all social content subject to books-and-records retention (generally 3+ years) and testimonials about investment advice or performance requiring prominent disclosure that results may not be representative and are no guarantee of future performance, plus disclosure of any compensation paid for the testimonial. SIMPLE IRA 25%-first-2-years penalty is a stable IRC 72(t)(6) rule, not flagged as changed. Single send, no duplicate."
+    },
+    {
+      "date": "2026-09-23",
+      "subject": "Finance drill - September 23, 2026",
+      "gmailThreadId": "1a0ce54de93f7698",
+      "graded": false,
+      "topics": [
+        "usa-administrator-enforcement-powers",
+        "annuity-taxation-lifo-exclusion-ratio",
+        "mutual-fund-share-class-breakeven",
+        "529-and-coverdell",
+        "bond-premium-amortization-discount-accretion"
+      ],
+      "formats": [
+        "multiple-choice",
+        "calculation",
+        "multiple-choice",
+        "explain-in-a-sentence",
+        "calculation"
+      ],
+      "newTopics": [
+        "bond-premium-amortization-discount-accretion"
+      ],
+      "questions": [
+        {
+          "n": 1,
+          "topic": "usa-administrator-enforcement-powers",
+          "format": "multiple-choice",
+          "prompt": "Which is NOT within Administrator authority: subpoena, C&D without hearing, deny registration, jail sentence?",
+          "answer": "D. Criminal penalties only via courts."
+        },
+        {
+          "n": 2,
+          "topic": "annuity-taxation-lifo-exclusion-ratio",
+          "format": "calculation",
+          "prompt": "$60,000 basis, $500/mo life-only, 20-yr expectancy. Exclusion ratio, taxable per year, taxation after 85?",
+          "answer": "50%; $3,000/yr ordinary income; 100% ordinary income once basis recovered."
+        },
+        {
+          "n": 3,
+          "topic": "mutual-fund-share-class-breakeven",
+          "format": "multiple-choice",
+          "prompt": "Most likely unsuitable share class recommendation?",
+          "answer": "C. B shares for $500,000 purchase (no breakpoints)."
+        },
+        {
+          "n": 4,
+          "topic": "529-and-coverdell",
+          "format": "explain-in-a-sentence",
+          "prompt": "Conditions for 529-to-Roth rollover under SECURE 2.0.",
+          "answer": "15+ yr account, beneficiary owns Roth, last-5-yr contributions excluded, annual Roth limit (earned income), $35,000 lifetime."
+        },
+        {
+          "n": 5,
+          "topic": "bond-premium-amortization-discount-accretion",
+          "format": "calculation",
+          "prompt": "Muni bought at 108, 10 yrs to maturity, sold after 4 yrs at 104, straight-line. Basis, gain/loss, at maturity?",
+          "answer": "$1,048 basis; $8 capital loss; no gain/loss at maturity."
+        }
+      ],
+      "note": "Checked 9/22, 9/16, 9/14 threads: still single unread sent messages, no replies, no grading. Missed-rate slot again substituted with stalest topics (8/28 group plus 529 from 9/1). finra-2210-communications skipped despite staleness because 9/22 covered adjacent 2210 material. New topic pulled from gapsToMineNext bond pricing item."
     }
   ],
   "syllabusNotes": {
@@ -997,7 +1064,7 @@
       "options tax remaining: straddle loss deferral and capitalized carrying charges under 263(g) (QCC suspension and protective put reset done 9/7, wash sales done 8/26, exercise/assignment basis and LEAPS done 9/1)",
       "variable annuity separate account regulation and suitability (1035 done 8/26, payout units done 8/27, LIFO and exclusion ratio done 8/28, AIR-vs-actual-performance payout mechanics done 9/22)",
       "arbitration mechanics: predispute agreement disclosure rules, mediation (COP vs COA done 8/26)",
-      "bond pricing mechanics remaining: dollar price to yield conversion, premium amortization and discount accretion for tax basis (yield ranking and yield to worst done 9/7, accrued interest 30/360 and actual/actual done 9/3)"
+      "bond pricing mechanics remaining: dollar price to yield conversion, discount accretion and OID for tax basis (muni premium amortization done 9/23, yield ranking and yield to worst done 9/7, accrued interest 30/360 and actual/actual done 9/3)"
     ],
     "ruleChangeWatch": [
       {
